@@ -5,6 +5,9 @@
 import Foundation
 import OSLog
 import SwiftUI
+#if !SKIP
+import AWSCore
+#endif
 
 let logger: Logger = Logger(subsystem: "com.skip.parkmate", category: "ParkMate")
 
@@ -16,6 +19,12 @@ let androidSDK = ProcessInfo.processInfo.environment["android.os.Build.VERSION.S
 /// The default implementation merely loads the `ContentView` for the app and logs a message.
 public struct RootView : View {
     public init() {
+        #if !SKIP
+        // Initialize AWS Configurations
+        let credentialsProvider = AWSStaticCredentialsProvider(accessKey: "AKIA5G2VG4SUUQKNSDO2", secretKey: "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")
+        let configuration = AWSServiceConfiguration(region: .EUNorth1, credentialsProvider: credentialsProvider)
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
+        #endif
     }
 
     public var body: some View {

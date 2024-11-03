@@ -27,7 +27,6 @@ public struct ContentView: View {
                     Label("Home", systemImage: "house.fill")
                 }
                 .tag(Tab.home)
-            
             ReservationsView()
                 .tabItem {
                     Label("Reservations", systemImage: "text.page")

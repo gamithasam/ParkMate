@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D669B642CD714E300F11F07 /* AWSCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0D669B632CD714E300F11F07 /* AWSCore */; };
+		0DD1F5932CD6473C0045EC1D /* AWSAppleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F5922CD6473C0045EC1D /* AWSAppleSignIn */; };
+		0DD1F5952CD6473C0045EC1D /* AWSAuthCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F5942CD6473C0045EC1D /* AWSAuthCore */; };
+		0DD1F5972CD6473C0045EC1D /* AWSAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F5962CD6473C0045EC1D /* AWSAuthUI */; };
+		0DD1F5992CD711F30045EC1D /* AWSDynamoDB in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F5982CD711F30045EC1D /* AWSDynamoDB */; };
+		0DD1F59B2CD711F30045EC1D /* AWSGoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F59A2CD711F30045EC1D /* AWSGoogleSignIn */; };
 		49231BAC2AC5BCEF00F98ADF /* ParkMateApp in Frameworks */ = {isa = PBXBuildFile; productRef = 49231BAB2AC5BCEF00F98ADF /* ParkMateApp */; };
 		49231BAD2AC5BCEF00F98ADF /* ParkMateApp in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 49231BAB2AC5BCEF00F98ADF /* ParkMateApp */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		496BDBEE2B8A7E9C00C09264 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 496BDBED2B8A7E9C00C09264 /* Localizable.xcstrings */; };
@@ -29,9 +35,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4900101C2BACEA710000DE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		493609562A6B7EAE00C401E2 /* ParkMate */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ParkMate; path = ..; sourceTree = "<group>"; };
 		496BDBEB2B89A47800C09264 /* ParkMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4900101C2BACEA710000DE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Info.plist"; sourceTree = "<group>"; };
 		496BDBED2B8A7E9C00C09264 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = ../Sources/ParkMate/Resources/Localizable.xcstrings; sourceTree = "<group>"; };
 		496EB72F2A6AE4DE00C1253A /* Skip.env */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Skip.env; path = ../Skip.env; sourceTree = "<group>"; };
 		496EB72F2A6AE4DE00C1253B /* ParkMate.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ParkMate.xcconfig; sourceTree = "<group>"; };
@@ -47,7 +53,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D669B642CD714E300F11F07 /* AWSCore in Frameworks */,
+				0DD1F5972CD6473C0045EC1D /* AWSAuthUI in Frameworks */,
 				49231BAC2AC5BCEF00F98ADF /* ParkMateApp in Frameworks */,
+				0DD1F5992CD711F30045EC1D /* AWSDynamoDB in Frameworks */,
+				0DD1F59B2CD711F30045EC1D /* AWSGoogleSignIn in Frameworks */,
+				0DD1F5952CD6473C0045EC1D /* AWSAuthCore in Frameworks */,
+				0DD1F5932CD6473C0045EC1D /* AWSAppleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +127,12 @@
 			name = ParkMate;
 			packageProductDependencies = (
 				49231BAB2AC5BCEF00F98ADF /* ParkMateApp */,
+				0DD1F5922CD6473C0045EC1D /* AWSAppleSignIn */,
+				0DD1F5942CD6473C0045EC1D /* AWSAuthCore */,
+				0DD1F5962CD6473C0045EC1D /* AWSAuthUI */,
+				0DD1F5982CD711F30045EC1D /* AWSDynamoDB */,
+				0DD1F59A2CD711F30045EC1D /* AWSGoogleSignIn */,
+				0D669B632CD714E300F11F07 /* AWSCore */,
 			);
 			productName = App;
 			productReference = 496BDBEB2B89A47800C09264 /* ParkMate.app */;
@@ -128,7 +146,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1610;
 			};
 			buildConfigurationList = 49F90C232A52156200F06D93 /* Build configuration list for PBXProject "ParkMate" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -143,6 +161,7 @@
 			);
 			mainGroup = 49F90C1F2A52156200F06D93;
 			packageReferences = (
+				0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */,
 			);
 			productRefGroup = 496BDBEC2B89A47800C09264 /* Products */;
 			projectDirPath = "";
@@ -183,7 +202,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -e";
-			shellScript = "if [ \"${SKIP_ZERO}\" != \"\" ]; then\n	echo \"note: skipping skip due to SKIP_ZERO\"\n	exit 0\nelif [ \"${ENABLE_PREVIEWS}\" == \"YES\" ]; then\n	echo \"note: skipping skip due to ENABLE_PREVIEWS\"\n	exit 0\nelif [ \"${ACTION}\" == \"install\" ]; then\n	echo \"note: skipping skip due to archive install\"\n	exit 0\nelse\n	SKIP_ACTION=\"${SKIP_ACTION:-launch}\"\nfi\nPATH=${BUILD_ROOT}/Debug:${BUILD_ROOT}/../../SourcePackages/artifacts/skip/skip/skip.artifactbundle/macos:${PATH}:${HOMEBREW_PREFIX:-/opt/homebrew}/bin\necho \"note: running gradle build with: $(which skip) gradle -p ${PWD}/../Android ${SKIP_ACTION:-launch}${CONFIGURATION:-Debug}\"\nskip gradle -p ../Android ${SKIP_ACTION:-launch}${CONFIGURATION:-Debug}\n";
+			shellScript = "if [ \"${SKIP_ZERO}\" != \"\" ]; then\n\techo \"note: skipping skip due to SKIP_ZERO\"\n\texit 0\nelif [ \"${ENABLE_PREVIEWS}\" == \"YES\" ]; then\n\techo \"note: skipping skip due to ENABLE_PREVIEWS\"\n\texit 0\nelif [ \"${ACTION}\" == \"install\" ]; then\n\techo \"note: skipping skip due to archive install\"\n\texit 0\nelse\n\tSKIP_ACTION=\"${SKIP_ACTION:-launch}\"\nfi\nPATH=${BUILD_ROOT}/Debug:${BUILD_ROOT}/../../SourcePackages/artifacts/skip/skip/skip.artifactbundle/macos:${PATH}:${HOMEBREW_PREFIX:-/opt/homebrew}/bin\necho \"note: running gradle build with: $(which skip) gradle -p ${PWD}/../Android ${SKIP_ACTION:-launch}${CONFIGURATION:-Debug}\"\nskip gradle -p ../Android ${SKIP_ACTION:-launch}${CONFIGURATION:-Debug}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -202,6 +221,8 @@
 		499CD4422AC5B799001AE8D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_PREVIEWS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -211,6 +232,8 @@
 		499CD4432AC5B799001AE8D8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_PREVIEWS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -223,11 +246,38 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -243,11 +293,38 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -278,7 +355,48 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aws-amplify/aws-sdk-ios-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.37.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		0D669B632CD714E300F11F07 /* AWSCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
+			productName = AWSCore;
+		};
+		0DD1F5922CD6473C0045EC1D /* AWSAppleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
+			productName = AWSAppleSignIn;
+		};
+		0DD1F5942CD6473C0045EC1D /* AWSAuthCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
+			productName = AWSAuthCore;
+		};
+		0DD1F5962CD6473C0045EC1D /* AWSAuthUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
+			productName = AWSAuthUI;
+		};
+		0DD1F5982CD711F30045EC1D /* AWSDynamoDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
+			productName = AWSDynamoDB;
+		};
+		0DD1F59A2CD711F30045EC1D /* AWSGoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
+			productName = AWSGoogleSignIn;
+		};
 		49231BAB2AC5BCEF00F98ADF /* ParkMateApp */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ParkMateApp;

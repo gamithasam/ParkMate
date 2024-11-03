@@ -49,8 +49,10 @@ struct HomeView: View {
             .padding(.top, 16)
             .padding(.trailing, 33.5)
             .padding(.bottom, 16.25)
+            #if !SKIP
             MapView()
                 .clipShape(CustomCorner(radius: 24))
+            #endif
         }
     }
 }
