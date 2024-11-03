@@ -50,8 +50,17 @@ struct HomeView: View {
             .padding(.trailing, 33.5)
             .padding(.bottom, 16.25)
             #if !SKIP
-            MapView()
-                .clipShape(CustomCorner(radius: 24))
+            ZStack {
+                MapView()
+                    .clipShape(CustomCorner(radius: 24))
+                ScrollView(.horizontal, showsIndicators: false) {
+                    CarousalView()
+                }
+                .frame(height: 98)
+                .padding(.bottom, 20)
+                .frame(maxHeight: .infinity, alignment: .bottom)
+//                .edgesIgnoringSafeArea(.bottom)
+            }
             #endif
         }
     }

@@ -209,6 +209,9 @@
         }
       }
     },
+    "per hour" : {
+
+    },
     "Powered by %@" : {
       "extractionState" : "stale",
       "localizations" : {

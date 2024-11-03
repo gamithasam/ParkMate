@@ -1,6 +1,7 @@
 // This is free software: you can redistribute and/or modify it
 // under the terms of the GNU General Public License 3.0
 // as published by the Free Software Foundation https://fsf.org
+
 #if !SKIP
 import Foundation
 import AWSCore
@@ -12,6 +13,8 @@ class ParkingLot: AWSDynamoDBObjectModel, AWSDynamoDBModeling, Identifiable {
     @objc var city: String?
     @objc var latitude: NSNumber?
     @objc var longitude: NSNumber?
+    @objc var pic: String?
+    @objc var price: NSNumber?
 
     class func dynamoDBTableName() -> String {
         return "ParkingLots" // Replace with your DynamoDB table name
