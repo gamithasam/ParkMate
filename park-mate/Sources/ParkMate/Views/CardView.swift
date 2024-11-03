@@ -14,6 +14,8 @@ struct CardView: View {
                     switch phase {
                     case .empty:
                         ProgressView()
+                            .frame(width: 80, height: 80)
+                            .cornerRadius(10)
                     case .success(let image):
                         image
                             .resizable()
@@ -30,6 +32,8 @@ struct CardView: View {
                             .clipped()
                     @unknown default:
                         EmptyView()
+                            .frame(width: 80, height: 80)
+                            .cornerRadius(10)
                     }
                 }
             } else {
