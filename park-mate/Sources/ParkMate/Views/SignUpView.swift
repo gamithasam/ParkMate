@@ -48,15 +48,25 @@ struct SignUpView: View {
             VStack(spacing: 15) {
                 TextField("First Name", text: $firstName)
                     .textFieldStyle(.roundedBorder)
+                    .textInputAutocapitalization(.words)
+                    .autocorrectionDisabled(true)
+                    .textContentType(.givenName)
                     .padding(.horizontal)
                 
                 TextField("Last Name", text: $lastName)
                     .textFieldStyle(.roundedBorder)
+                    .textInputAutocapitalization(.words)
+                    .autocorrectionDisabled(true)
+                    .textContentType(.familyName)
                     .padding(.horizontal)
                 
                 TextField("Email", text: $email)
                     .textFieldStyle(.roundedBorder)
                     .keyboardType(.emailAddress)
+                    .autocorrectionDisabled(true)
+                    .textContentType(.emailAddress)
+                    .autocapitalization(.none)
+                    .textInputAutocapitalization(.never)
                     .padding(.horizontal)
                 
                 if !isEmailValid {
@@ -67,6 +77,9 @@ struct SignUpView: View {
                 
                 SecureField("Password", text: $password)
                     .textFieldStyle(.roundedBorder)
+                    .textContentType(.newPassword)
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled(true)
                     .padding(.horizontal)
                 
                 if !isPasswordValid {
@@ -77,6 +90,9 @@ struct SignUpView: View {
                 
                 SecureField("Confirm Password", text: $confirmPassword)
                     .textFieldStyle(.roundedBorder)
+                    .textContentType(.newPassword)
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled(true)
                     .padding(.horizontal)
                 
                 if !doPasswordsMatch {

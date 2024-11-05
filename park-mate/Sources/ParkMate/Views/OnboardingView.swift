@@ -24,7 +24,7 @@ struct OnboardingView: View {
                         .font(.title)
                         .fontWeight(.bold)
                     
-                    Text("We’re excited to have you with us. Start exploring easy parking by signing in.")
+                    Text("We’re excited to have you with us. Start exploring easy parking.")
                         .font(.body)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
@@ -65,11 +65,18 @@ struct OnboardingView: View {
                     VStack(spacing: 15) {
                         TextField("Email", text: $email)
                             .textFieldStyle(.roundedBorder)
+                            .textInputAutocapitalization(.never)
                             .keyboardType(.emailAddress)
+                            .autocorrectionDisabled(true)
+                            .textContentType(.username)
+                            .autocapitalization(.none)
                             .padding(.horizontal)
                         
                         SecureField("Password", text: $password)
                             .textFieldStyle(.roundedBorder)
+                            .textContentType(.password)
+                            .autocapitalization(.none)
+                            .autocorrectionDisabled(true)
                             .padding(.horizontal)
                     }
                     
