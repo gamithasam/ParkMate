@@ -28,11 +28,19 @@ public struct RootView : View {
     }
 
     public var body: some View {
+        #if SKIP
         ContentView()
             .task {
                 logger.log("Welcome to Skip on \(androidSDK != nil ? "Android" : "Darwin")!")
                 logger.warning("Skip app logs are viewable in the Xcode console for iOS; Android logs can be viewed in Studio or using adb logcat")
             }
+        #else
+        OnboardingView()
+            .task {
+                logger.log("Welcome to Skip on \(androidSDK != nil ? "Android" : "Darwin")!")
+                logger.warning("Skip app logs are viewable in the Xcode console for iOS; Android logs can be viewed in Studio or using adb logcat")
+            }
+        #endif
     }
 }
 

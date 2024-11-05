@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Add Vehicle" : {
+
+    },
+    "Add Vehicles" : {
+
+    },
     "Appearance" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -30,6 +36,21 @@
         }
       }
     },
+    "Birthday" : {
+
+    },
+    "Confirm Password" : {
+
+    },
+    "Continue" : {
+
+    },
+    "Create Account" : {
+
+    },
+    "Create an Account" : {
+
+    },
     "Dark" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -58,6 +79,21 @@
           }
         }
       }
+    },
+    "Don't have an account? Sign Up" : {
+
+    },
+    "Email" : {
+
+    },
+    "Error" : {
+
+    },
+    "First Name" : {
+
+    },
+    "Get Started" : {
+
     },
     "Hello [%@](https://skip.tools)!" : {
       "extractionState" : "stale",
@@ -148,6 +184,15 @@
         }
       }
     },
+    "Last Name" : {
+
+    },
+    "License Plate Number" : {
+
+    },
+    "License Plate: %@" : {
+
+    },
     "Light" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -209,7 +254,25 @@
         }
       }
     },
+    "OK" : {
+
+    },
+    "Password" : {
+
+    },
+    "Password must be at least 8 characters" : {
+
+    },
+    "Passwords do not match" : {
+
+    },
     "per hour" : {
+
+    },
+    "Please enter a valid email address" : {
+
+    },
+    "Please sign in to continue exploring our features." : {
 
     },
     "Powered by %@" : {
@@ -276,6 +339,9 @@
         }
       }
     },
+    "Select Vehicle" : {
+
+    },
     "Settings" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -304,6 +370,12 @@
           }
         }
       }
+    },
+    "Sign In" : {
+
+    },
+    "Sign up to start your journey with us!" : {
+
     },
     "System" : {
       "extractionState" : "stale",
@@ -334,6 +406,12 @@
         }
       }
     },
+    "Type: %@" : {
+
+    },
+    "We’re excited to have you with us. Start exploring easy parking by signing in." : {
+
+    },
     "Welcome" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -363,7 +441,13 @@
         }
       }
     },
+    "Welcome to ParkMate!" : {
+
+    },
     "Where Are You Planning to Park?" : {
+
+    },
+    "You must be at least 17 years old to use ParkMate" : {
 
     }
   },

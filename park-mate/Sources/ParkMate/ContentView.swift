@@ -5,10 +5,6 @@
 import SwiftUI
 
 public struct ContentView: View {
-//    @AppStorage("tab") var tab = Tab.welcome
-//    @AppStorage("name") var name = "Skipper"
-//    @State var appearance = ""
-//    @State var isBeating = false
     @State private var selection: Tab = .home
 
     enum Tab: String, Hashable {
