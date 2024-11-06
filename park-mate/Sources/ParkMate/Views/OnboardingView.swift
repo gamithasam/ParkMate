@@ -1,6 +1,7 @@
 // This is free software: you can redistribute and/or modify it
 // under the terms of the GNU General Public License 3.0
 // as published by the Free Software Foundation https://fsf.org
+
 #if !SKIP
 import SwiftUI
 
@@ -8,6 +9,7 @@ struct OnboardingView: View {
     @State private var currentTab = 0
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var signInError: String?
     
     var body: some View {
         NavigationStack {
@@ -85,6 +87,9 @@ struct OnboardingView: View {
                         print("User signed in!")
                         print(email)
                         print(password)
+                        #if !SKIP
+                        signIn(email: email, password: password)
+                        #endif
                     }) {
                         Text("Sign In")
                             .font(.headline)
@@ -113,5 +118,80 @@ struct OnboardingView: View {
 //            .navigationTitle("")
         }
     }
+    #if !SKIP
+    func signIn(email: String, password: String) {
+        // Clear any previous error
+        signInError = nil
+        
+        // Basic validation
+        guard !email.isEmpty else {
+            signInError = "Please enter your email"
+            print(signInError! ?? "")
+            return
+        }
+        
+        guard !password.isEmpty else {
+            signInError = "Please enter your password"
+            print(signInError! ?? "")
+            return
+        }
+
+        // Fetch user from DynamoDB based on email
+        DatabaseManager.shared.fetchUser(email: email) { user, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.signInError = "Error fetching user: \(error.localizedDescription)"
+                    print(self.signInError! ?? "")
+                }
+                return
+            }
+
+            guard let user = user else {
+                DispatchQueue.main.async {
+                    self.signInError = "No account found with this email."
+                    print(self.signInError! ?? "")
+                }
+                return
+            }
+
+            // Retrieve salt and hashed password
+            guard let saltData = Data(base64Encoded: user.salt!),
+                  let storedHashData = Data(base64Encoded: user.password!) else {
+                DispatchQueue.main.async {
+                    self.signInError = "Invalid stored credentials."
+                    print(self.signInError! ?? "")
+                }
+                return
+            }
+
+            // Hash the entered password with the retrieved salt
+            guard let enteredHash = PasswordHelper.hashPassword(password, salt: saltData) else {
+                DispatchQueue.main.async {
+                    self.signInError = "Error processing password."
+                    print(self.signInError! ?? "")
+                }
+                return
+            }
+
+            // Compare the hashes
+            if enteredHash == storedHashData {
+                DispatchQueue.main.async {
+                    // Save user session
+                    UserDefaults.standard.set(user.email, forKey: "userEmail")
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    
+                    // Navigate to the main app view
+                    print("Successfully signed in with email: \(user.email)")
+                    // TODO: Add navigation to main app view
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.signInError = "Incorrect password."
+                    print(self.signInError! ?? "")
+                }
+            }
+        }
+    }
+    #endif
 }
 #endif
