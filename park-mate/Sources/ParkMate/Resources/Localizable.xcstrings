@@ -222,6 +222,9 @@
         }
       }
     },
+    "Manage your account details, vehicles, payment methods, and parking preferences." : {
+
+    },
     "Map requires iOS 17" : {
 
     },
@@ -267,6 +270,9 @@
 
     },
     "per hour" : {
+
+    },
+    "Personal information" : {
 
     },
     "Please enter a valid email address" : {
@@ -380,6 +386,9 @@
     "Sign up to start your journey with us!" : {
 
     },
+    "Sign-In & Security" : {
+
+    },
     "System" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -409,7 +418,13 @@
         }
       }
     },
+    "This is a placeholder." : {
+
+    },
     "Type: %@" : {
+
+    },
+    "Vehicles" : {
 
     },
     "We’re excited to have you with us. Start exploring easy parking." : {
