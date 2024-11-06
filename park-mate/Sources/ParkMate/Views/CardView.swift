@@ -9,7 +9,7 @@ struct CardView: View {
     
     var body: some View {
         HStack {
-            if let urlString = parkinglot.pic, let url = URL(string: parkinglot.pic!) {
+            if let _ = parkinglot.pic, let url = URL(string: parkinglot.pic!) {
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .empty:

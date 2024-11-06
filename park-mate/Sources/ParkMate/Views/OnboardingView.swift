@@ -16,6 +16,7 @@ struct OnboardingView: View {
     @State private var password: String = ""
     @State private var alertItem: AlertItem?
     @State private var isLoading = false
+    @State private var isLoggedIn = false
     
     // Validation states
     @State private var isEmailValid = true
@@ -151,6 +152,9 @@ struct OnboardingView: View {
             .tabViewStyle(.page)
             .indexViewStyle(.page(backgroundDisplayMode: .always))
         }
+        .fullScreenCover(isPresented: $isLoggedIn) {
+            ContentView()
+        }
     }
     #if !SKIP
     func signIn(email: String, password: String) {
@@ -223,15 +227,14 @@ struct OnboardingView: View {
                     // Save user session
                     UserDefaults.standard.set(user.email, forKey: "userEmail")
                     UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                    
-                    // Navigate to the main app view
-                    print("Successfully signed in with email: \(user.email)")
+                    self.isLoggedIn = true
+                    print("Successfully signed in with email: \(user.email!)")
                     // TODO: Add navigation to main app view
                 }
             } else {
                 DispatchQueue.main.async {
                     self.alertItem = AlertItem(message: "Incorrect password.")
-                    
+
                     // Clear text fields
                     self.email = ""
                     self.password = ""

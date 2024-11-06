@@ -18,6 +18,8 @@ let androidSDK = ProcessInfo.processInfo.environment["android.os.Build.VERSION.S
 ///
 /// The default implementation merely loads the `ContentView` for the app and logs a message.
 public struct RootView : View {
+    @State private var isLoggedIn = false
+    
     public init() {
         #if !SKIP
         // Initialize AWS Configurations
@@ -28,19 +30,26 @@ public struct RootView : View {
     }
 
     public var body: some View {
-        #if SKIP
-        ContentView()
-            .task {
-                logger.log("Welcome to Skip on \(androidSDK != nil ? "Android" : "Darwin")!")
-                logger.warning("Skip app logs are viewable in the Xcode console for iOS; Android logs can be viewed in Studio or using adb logcat")
+        Group {
+            #if !SKIP
+            if isLoggedIn {
+                AnyView(ContentView())
+            } else {
+                AnyView(OnboardingView())
             }
-        #else
-        OnboardingView()
-            .task {
-                logger.log("Welcome to Skip on \(androidSDK != nil ? "Android" : "Darwin")!")
-                logger.warning("Skip app logs are viewable in the Xcode console for iOS; Android logs can be viewed in Studio or using adb logcat")
-            }
-        #endif
+            #else
+            ContentView()
+            #endif
+        }
+        .onAppear {
+            // Check login state when app launches
+            checkLoginStatus()
+        }
+    }
+    
+    private func checkLoginStatus() {
+        // Check if user is logged in using UserDefaults
+        isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
     }
 }
 
