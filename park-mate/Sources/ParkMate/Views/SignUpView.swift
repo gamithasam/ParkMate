@@ -6,11 +6,6 @@
 import SwiftUI
 import AWSDynamoDB
 
-struct AlertItem: Identifiable {
-    let id = UUID()
-    let message: String
-}
-
 struct SignUpView: View {
     @State private var firstName: String = ""
     @State private var lastName: String = ""

@@ -5,11 +5,21 @@
 #if !SKIP
 import SwiftUI
 
+struct AlertItem: Identifiable {
+    let id = UUID()
+    let message: String
+}
+
 struct OnboardingView: View {
     @State private var currentTab = 0
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var signInError: String?
+    @State private var alertItem: AlertItem?
+    @State private var isLoading = false
+    
+    // Validation states
+    @State private var isEmailValid = true
+    @State private var isPasswordValid = true
     
     var body: some View {
         NavigationStack {
@@ -74,33 +84,58 @@ struct OnboardingView: View {
                             .autocapitalization(.none)
                             .padding(.horizontal)
                         
+                        if !isEmailValid {
+                            Text("Please enter a valid email address")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+                        
                         SecureField("Password", text: $password)
                             .textFieldStyle(.roundedBorder)
                             .textContentType(.password)
                             .autocapitalization(.none)
                             .autocorrectionDisabled(true)
                             .padding(.horizontal)
+                        
+                        if !isPasswordValid {
+                            Text("Please enter your password")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
                     }
                     
                     Button(action: {
                         // Handle sign-in logic here
+                        isLoading = true
                         print("User signed in!")
                         print(email)
                         print(password)
-                        #if !SKIP
                         signIn(email: email, password: password)
-                        #endif
                     }) {
-                        Text("Sign In")
-                            .font(.headline)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding(.horizontal)
+                        if isLoading {
+                           ProgressView()
+                        } else {
+                            Text("Sign In")
+                                .font(.headline)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                                .padding(.horizontal)
+                        }
                     }
                     .padding(.top, 20)
+                    .disabled(isLoading)
+                    .alert(item: $alertItem) { alert in
+                        Alert(
+                            title: Text("Error"),
+                            message: Text(alert.message),
+                            dismissButton: .default(Text("OK")) {
+                                isLoading = false
+                            }
+                        )
+                    }
                     
                     // Navigation link to sign-up screen
                     NavigationLink(destination: SignUpView()) {
@@ -115,24 +150,23 @@ struct OnboardingView: View {
             }
             .tabViewStyle(.page)
             .indexViewStyle(.page(backgroundDisplayMode: .always))
-//            .navigationTitle("")
         }
     }
     #if !SKIP
     func signIn(email: String, password: String) {
         // Clear any previous error
-        signInError = nil
+        isEmailValid = true
+        isPasswordValid = true
         
-        // Basic validation
-        guard !email.isEmpty else {
-            signInError = "Please enter your email"
-            print(signInError! ?? "")
-            return
-        }
+        // Email validation
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        isEmailValid = emailPredicate.evaluate(with: email)
         
+        // Password validation
         guard !password.isEmpty else {
-            signInError = "Please enter your password"
-            print(signInError! ?? "")
+            isPasswordValid = false
+            isLoading = false
             return
         }
 
@@ -140,17 +174,21 @@ struct OnboardingView: View {
         DatabaseManager.shared.fetchUser(email: email) { user, error in
             if let error = error {
                 DispatchQueue.main.async {
-                    self.signInError = "Error fetching user: \(error.localizedDescription)"
-                    print(self.signInError! ?? "")
+                    print("Error fetching user: \(error.localizedDescription)")
+                    self.alertItem = AlertItem(message: "An error occured. Please try again later.")
                 }
+                isLoading = false
                 return
             }
 
             guard let user = user else {
                 DispatchQueue.main.async {
-                    self.signInError = "No account found with this email."
-                    print(self.signInError! ?? "")
+                    self.alertItem = AlertItem(message: "No account found with this email.")
+                    // Clear text fields
+                    self.email = ""
+                    self.password = ""
                 }
+                isLoading = false
                 return
             }
 
@@ -158,18 +196,24 @@ struct OnboardingView: View {
             guard let saltData = Data(base64Encoded: user.salt!),
                   let storedHashData = Data(base64Encoded: user.password!) else {
                 DispatchQueue.main.async {
-                    self.signInError = "Invalid stored credentials."
-                    print(self.signInError! ?? "")
+                    self.alertItem = AlertItem(message: "Invalid stored credentials.")
+                    // Clear text fields
+                    self.email = ""
+                    self.password = ""
                 }
+                isLoading = false
                 return
             }
 
             // Hash the entered password with the retrieved salt
             guard let enteredHash = PasswordHelper.hashPassword(password, salt: saltData) else {
                 DispatchQueue.main.async {
-                    self.signInError = "Error processing password."
-                    print(self.signInError! ?? "")
+                    self.alertItem = AlertItem(message: "Error processing password")
+                    // Clear text fields
+                    self.email = ""
+                    self.password = ""
                 }
+                isLoading = false
                 return
             }
 
@@ -186,11 +230,17 @@ struct OnboardingView: View {
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.signInError = "Incorrect password."
-                    print(self.signInError! ?? "")
+                    self.alertItem = AlertItem(message: "Incorrect password.")
+                    
+                    // Clear text fields
+                    self.email = ""
+                    self.password = ""
                 }
             }
         }
+        
+        isLoading = false
+        
     }
     #endif
 }
