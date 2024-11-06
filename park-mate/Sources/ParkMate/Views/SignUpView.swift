@@ -233,6 +233,7 @@ struct SignUpView: View {
             dynamoDBObjectMapper.save(user!) { error in
                 if let error = error {
                     print("Error saving to DynamoDB: \(error)")
+                    self.alertItem = AlertItem(message: "An error occured while saving this account. Please try again.")
                 } else {
                     print("User saved successfully.")
                 }
