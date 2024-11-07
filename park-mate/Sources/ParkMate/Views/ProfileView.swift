@@ -41,9 +41,11 @@ struct ProfileView: View {
                     NavigationLink(destination: destinationView) {
                         Text("Vehicles")
                     }
-                    NavigationLink(destination: destinationView) {
+                    #if !SKIP
+                    NavigationLink(destination: SignInNSecurityView()) {
                         Text("Sign-In & Security")
                     }
+                    #endif
                 }
             }
             .navigationTitle("Profile")

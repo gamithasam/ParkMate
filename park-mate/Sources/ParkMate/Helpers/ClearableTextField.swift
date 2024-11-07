@@ -7,10 +7,40 @@ import SwiftUI
 struct ClearableTextField: View {
     var title: String
     @Binding var text: String
+    var type: String = ""
 
     var body: some View {
         ZStack(alignment: .trailing) {
-            TextField(title, text: $text)
+            if type == "newPassword" {
+                SecureField(title, text: $text)
+                #if !SKIP
+                    .textContentType(.newPassword)
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled(true)
+                #endif
+            } else if type == "password" {
+                SecureField(title, text: $text)
+                #if !SKIP
+                    .textContentType(.password)
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled(true)
+                #endif
+            } else if type == "email" {
+                TextField(title, text: $text)
+                #if !SKIP
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled(true)
+                    .keyboardType(.emailAddress)
+                    .textContentType(.emailAddress)
+                #endif
+            } else {
+                TextField(title, text: $text)
+                #if !SKIP
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled(true)
+                #endif
+            }
+            
             if !text.isEmpty {
                 Button(action: {
                     print("Clear button tapped")

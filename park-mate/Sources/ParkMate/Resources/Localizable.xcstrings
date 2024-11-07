@@ -51,6 +51,9 @@
     "Create an Account" : {
 
     },
+    "Current Password" : {
+
+    },
     "Dark" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -256,6 +259,9 @@
           }
         }
       }
+    },
+    "New Password" : {
+
     },
     "OK" : {
 
