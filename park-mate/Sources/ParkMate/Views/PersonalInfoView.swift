@@ -32,7 +32,9 @@ struct PersonalInfoView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
                     // Add your save action here
-//                    saveData()
+                    #if !SKIP
+                    saveData()
+                    #endif
                 }
             }
         }
@@ -80,6 +82,39 @@ struct PersonalInfoView: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM yyyy"
         return dateFormatter.date(from: dateString)
+    }
+    
+    func saveData() {
+        // Get the user's email from UserDefaults
+        guard let email = UserDefaults.standard.string(forKey: "userEmail") else {
+            print("Email not found in UserDefaults")
+            return
+        }
+        
+        // Create a User object with the updated information
+        let user = User()
+        user!.email = email
+        user!.firstName = firstName
+        user!.lastName = lastName
+        
+        // Convert Date to string for storage
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        user!.birthday = dateFormatter.string(from: birthday)
+        
+        // Get the DynamoDB object mapper
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+        
+        // Save the user data
+        dynamoDBObjectMapper.save(user!, completionHandler: { (error) in
+            if let error = error {
+                print("Error saving user details: \(error.localizedDescription)")
+            } else {
+                print("Successfully saved user details")
+                // You can add UI feedback here if needed
+                // For example, show a success message or navigate back
+            }
+        })
     }
     #endif
 }
