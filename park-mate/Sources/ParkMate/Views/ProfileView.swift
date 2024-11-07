@@ -33,9 +33,15 @@ struct ProfileView: View {
                 }
                 
                 List {
-                    NavigationLink("Personal information", destination: PersonalInfoView())
-                    NavigationLink("Vehicles", destination: destinationView)
-                    NavigationLink("Sign-In & Security", destination: destinationView)
+                    NavigationLink(destination: PersonalInfoView()) {
+                        Text("Personal information")
+                    }
+                    NavigationLink(destination: destinationView) {
+                        Text("Vehicles")
+                    }
+                    NavigationLink(destination: destinationView) {
+                        Text("Sign-In & Security")
+                    }
                 }
             }
             .navigationTitle("Profile")
