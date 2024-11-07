@@ -2,15 +2,16 @@
 // under the terms of the GNU General Public License 3.0
 // as published by the Free Software Foundation https://fsf.org
 
-import SwiftUI
 #if !SKIP
+import SwiftUI
 import AWSDynamoDB
-#endif
 
 struct PersonalInfoView: View {
     @State private var firstName: String = ""
     @State private var lastName: String = ""
     @State private var birthday: Date = Date()
+    @State private var alertItem: AlertItem?
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         Form {
@@ -32,24 +33,28 @@ struct PersonalInfoView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
                     // Add your save action here
-                    #if !SKIP
                     saveData()
-                    #endif
+                    dismiss()
                 }
             }
         }
-        #if !SKIP
         .onAppear {
             fetchUserDetails()
         }
-        #endif
+        .alert(item: $alertItem) { alert in
+            Alert(
+                title: Text("Error"),
+                message: Text(alert.message),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
     
-    #if !SKIP
     func fetchUserDetails() {
         // Get the user's email from UserDefaults
         guard let email = UserDefaults.standard.string(forKey: "userEmail") else {
             print("Email not found in UserDefaults")
+            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
             return
         }
         
@@ -64,6 +69,7 @@ struct PersonalInfoView: View {
         dynamoDBObjectMapper.load(User.self, hashKey: email, rangeKey: nil).continueWith { (task: AWSTask<AnyObject>!) -> Any? in
             if let error = task.error {
                 print("Error fetching user details: \(error.localizedDescription)")
+                self.alertItem = AlertItem(message: "An error occurred. Please try again.")
             } else if let user = task.result as? User {
                 DispatchQueue.main.async {
                     self.firstName = user.firstName ?? ""
@@ -88,6 +94,7 @@ struct PersonalInfoView: View {
         // Get the user's email from UserDefaults
         guard let email = UserDefaults.standard.string(forKey: "userEmail") else {
             print("Email not found in UserDefaults")
+            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
             return
         }
         
@@ -109,12 +116,12 @@ struct PersonalInfoView: View {
         dynamoDBObjectMapper.save(user!, completionHandler: { (error) in
             if let error = error {
                 print("Error saving user details: \(error.localizedDescription)")
+                self.alertItem = AlertItem(message: "An error occurred. Please try again.")
             } else {
                 print("Successfully saved user details")
-                // You can add UI feedback here if needed
-                // For example, show a success message or navigate back
+                dismiss()
             }
         })
     }
-    #endif
 }
+#endif

@@ -33,9 +33,11 @@ struct ProfileView: View {
                 }
                 
                 List {
+                    #if !SKIP
                     NavigationLink(destination: PersonalInfoView()) {
                         Text("Personal information")
                     }
+                    #endif
                     NavigationLink(destination: destinationView) {
                         Text("Vehicles")
                     }
