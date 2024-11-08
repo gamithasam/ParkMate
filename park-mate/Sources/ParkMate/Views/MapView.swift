@@ -24,16 +24,16 @@ struct MapView: View {
     var body: some View {
         #if !SKIP
         if #available(iOS 17.0, macOS 14.0, *) {
-            Map(coordinateRegion: $region, annotationItems: viewModel.parkingLots) { lot in
-                MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: lot.latitude?.doubleValue ?? 0.0, longitude: lot.longitude?.doubleValue ?? 0.0)) {
-                    VStack {
-                        Image(systemName: "mappin.circle.fill")
-                            .foregroundColor(.red)
-                            .font(.title)
-                        Text(lot.name ?? "")
-                            .font(.caption)
-                            .bold()
-                    }
+            Map {
+                ForEach(viewModel.parkingLots) { lot in
+                    Marker(
+                        lot.name ?? "",
+                        systemImage: "car.fill",
+                        coordinate: CLLocationCoordinate2D(
+                            latitude: lot.latitude?.doubleValue ?? 0.0,
+                            longitude: lot.longitude?.doubleValue ?? 0.0
+                        )
+                    )
                 }
             }
             .edgesIgnoringSafeArea(.all)
