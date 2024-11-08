@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld" : {
+
+    },
+    "ABC-1234" : {
+
+    },
     "Add Vehicle" : {
 
     },
@@ -77,13 +83,22 @@
         }
       }
     },
+    "Date and Time" : {
+
+    },
     "Don't have an account? Sign Up" : {
+
+    },
+    "DVD-2313" : {
 
     },
     "Email" : {
 
     },
     "Error" : {
+
+    },
+    "FHR-4541" : {
 
     },
     "First Name" : {
@@ -151,6 +166,9 @@
           }
         }
       }
+    },
+    "Hours:" : {
+
     },
     "Item %lld" : {
       "extractionState" : "stale",
@@ -252,6 +270,9 @@
       }
     },
     "New Password" : {
+
+    },
+    "Next" : {
 
     },
     "OK" : {
@@ -395,6 +416,9 @@
     "Sign-In & Security" : {
 
     },
+    "Start Time" : {
+
+    },
     "System" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -425,6 +449,9 @@
       }
     },
     "This is a placeholder." : {
+
+    },
+    "Vehicle" : {
 
     },
     "Vehicles" : {
