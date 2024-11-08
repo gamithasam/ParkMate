@@ -6,14 +6,19 @@
 import SwiftUI
 import AWSDynamoDB
 
-struct VehicleAdd: Identifiable {
+struct VehicleAdd: Identifiable, Equatable {
     let id = UUID()
     var type: String
     var licensePlate: String
+    
+    static func == (lhs: VehicleAdd, rhs: VehicleAdd) -> Bool {
+        return lhs.type == rhs.type && lhs.licensePlate == rhs.licensePlate
+    }
 }
 
 struct VehiclesView: View {
     @State private var vehicles: [VehicleAdd] = []
+    @State private var originalVehicles: [VehicleAdd] = []
     @State private var licensePlate: String = ""
     @State private var selectedVehicleType: Int = 0
     @State private var alertItem: AlertItem?
@@ -132,6 +137,26 @@ struct VehiclesView: View {
         }
 
         let saveGroup = DispatchGroup()
+        
+        // Identify deleted vehicles
+        let deletedVehicles = originalVehicles.filter { !vehicles.contains($0) }
+
+        // Delete removed vehicles from DynamoDB
+        for vehicle in deletedVehicles {
+            // Assuming Vehicle has a primary key, e.g., licensePlate and email
+            let vehicleItem = Vehicle()
+            vehicleItem?.licensePlate = vehicle.licensePlate
+            vehicleItem?.email = userEmail
+            
+            saveGroup.enter()
+            dynamoDBObjectMapper.remove(vehicleItem!) { error in
+                if let error = error {
+                    print("Failed to delete vehicle: \(error)")
+                    self.alertItem = AlertItem(message: "An error occurred while deleting. Please try again.")
+                }
+                saveGroup.leave()
+            }
+        }
 
         for vehicle in vehicles {
             let vehicleItem = Vehicle()
@@ -152,7 +177,6 @@ struct VehiclesView: View {
         saveGroup.notify(queue: .main) {
             isSaving = false
             print("All vehicles saved successfully.")
-//            UserDefaults.standard.set(true, forKey: "hasVehicles")
             if !fromLaunch {
                 print("Dismissing")
                 dismiss()
@@ -195,6 +219,7 @@ struct VehiclesView: View {
                         }
                         return nil
                     }
+                    self.originalVehicles = self.vehicles
                 }
             }
         }
