@@ -16,8 +16,10 @@ struct VehiclesView: View {
     @State private var vehicles: [VehicleAdd] = []
     @State private var licensePlate: String = ""
     @State private var selectedVehicleType: Int = 0
+    @State private var alertItem: AlertItem?
     @State private var isSaving: Bool = false
     @State private var changed: Bool = false
+    @Environment(\.dismiss) private var dismiss
     
     let vehicleTypes = ["Car", "Bicycle", "Motorcycle", "Truck"]
     let vehicleIcons = ["car.fill", "bicycle", "motorcycle.fill", "truck.box.fill"]
@@ -70,11 +72,18 @@ struct VehiclesView: View {
                         Text("Save")
                     }
                 }
-                .disabled(isSaving || changed)
+                .disabled(isSaving || !changed)
             }
         }
         .onAppear {
             fetchVehicles()
+        }
+        .alert(item: $alertItem) { alert in
+            Alert(
+                title: Text("Error"),
+                message: Text(alert.message),
+                dismissButton: .default(Text("OK"))
+            )
         }
     }
     
@@ -105,7 +114,7 @@ struct VehiclesView: View {
         guard let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
             isSaving = false
             print("Email not found in UserDefaults")
-//            self.alertItem = AlertItem(message: "An error occurred. Please try again.") //TODO: Add alerts
+            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
             return
         }
 
@@ -121,6 +130,7 @@ struct VehiclesView: View {
             dynamoDBObjectMapper.save(vehicleItem!) { error in
                 if let error = error {
                     print("Failed to save vehicle: \(error)")
+                    self.alertItem = AlertItem(message: "An error occurred. Please try again.")
                 }
                 saveGroup.leave()
             }
@@ -129,7 +139,7 @@ struct VehiclesView: View {
         saveGroup.notify(queue: .main) {
             isSaving = false
             print("All vehicles saved successfully.")
-//            dismiss() //TODO: add dismiss
+            dismiss()
         }
     }
 
@@ -140,8 +150,8 @@ struct VehiclesView: View {
         // Get the user's email from UserDefaults
         guard let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
             print("Email not found in UserDefaults")
-//            self.alertItem = AlertItem(message: "An error occurred. Please try again.") //TODO: Add alerts
-//            dismiss() //TODO: Add dismiss
+            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+            dismiss()
             return
         }
         
@@ -155,8 +165,8 @@ struct VehiclesView: View {
         dynamoDBObjectMapper.query(Vehicle.self, expression: queryExpression) { (output, error) in
             if let error = error {
                 print("Failed to fetch vehicles: \(error)")
-    //            self.alertItem = AlertItem(message: "An error occurred. Please try again.") //TODO: Add alerts
-    //            dismiss() //TODO: Add dismiss
+                self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+                dismiss()
             } else if let items = output?.items as? [Vehicle] {
                 DispatchQueue.main.async {
                     self.vehicles = items.compactMap { item in
