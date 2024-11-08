@@ -18,7 +18,9 @@ let androidSDK = ProcessInfo.processInfo.environment["android.os.Build.VERSION.S
 ///
 /// The default implementation merely loads the `ContentView` for the app and logs a message.
 public struct RootView : View {
-    @State private var isLoggedIn = false
+//    @State private var isLoggedIn = false
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("hasVehicles") private var hasVehicles = false
     
     public init() {
         #if !SKIP
@@ -29,28 +31,58 @@ public struct RootView : View {
         #endif
     }
 
+//    public var body: some View {
+//        Group {
+//            #if !SKIP
+//            if !isLoggedIn {
+//                OnboardingView()
+//            } else if !hasVehicles {
+//                NavigationStack {
+//                    VehiclesView()
+//                        .navigationBarBackButtonHidden(true)
+//                }
+//            } else {
+//                ContentView()
+//            }
+//            #else
+//            ContentView()
+//            #endif
+//        }
+//        .onAppear {
+//            // Check login and vehicles states when app launches
+//            checkLoginStatus()
+//            print("hasVehicles: \(hasVehicles)")
+////            checkVehiclesStatus()
+//        }
+//    }
+    @ViewBuilder
     public var body: some View {
-        Group {
-            #if !SKIP
-            if isLoggedIn {
-                AnyView(ContentView())
-            } else {
-                AnyView(OnboardingView())
+        #if !SKIP
+        if !isLoggedIn {
+            OnboardingView()
+        } else if !hasVehicles {
+            NavigationStack {
+                VehiclesView(fromLaunch: true)
+                    .navigationBarBackButtonHidden(true)
             }
-            #else
+        } else {
             ContentView()
-            #endif
         }
-        .onAppear {
-            // Check login state when app launches
-            checkLoginStatus()
-        }
+        #else
+        ContentView()
+        #endif
     }
+        
     
     private func checkLoginStatus() {
         // Check if user is logged in using UserDefaults
         isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
     }
+    
+//    private func checkVehiclesStatus() {
+//        // Check if vehicles are empty in using UserDefaults
+//        hasVehicles = UserDefaults.standard.bool(forKey: "hasVehicles")
+//    }
 }
 
 #if !SKIP

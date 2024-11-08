@@ -20,6 +20,8 @@ struct VehiclesView: View {
     @State private var isSaving: Bool = false
     @State private var changed: Bool = false
     @Environment(\.dismiss) private var dismiss
+    @AppStorage("hasVehicles") private var hasVehicles = false
+    @State var fromLaunch = false
     
     let vehicleTypes = ["Car", "Bicycle", "Motorcycle", "Truck"]
     let vehicleIcons = ["car.fill", "bicycle", "motorcycle.fill", "truck.box.fill"]
@@ -72,7 +74,7 @@ struct VehiclesView: View {
                         Text("Save")
                     }
                 }
-                .disabled(isSaving || !changed)
+                .disabled(isSaving || !changed || vehicles.isEmpty)
             }
         }
         .onAppear {
@@ -139,7 +141,14 @@ struct VehiclesView: View {
         saveGroup.notify(queue: .main) {
             isSaving = false
             print("All vehicles saved successfully.")
-            dismiss()
+//            UserDefaults.standard.set(true, forKey: "hasVehicles")
+            if !fromLaunch {
+                print("Dismissing")
+                dismiss()
+            } else {
+                print("Changing hasVehicles")
+                hasVehicles = true
+            }
         }
     }
 

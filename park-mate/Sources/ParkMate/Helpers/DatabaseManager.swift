@@ -29,6 +29,24 @@ class DatabaseManager {
         }
     }
     
+    func fetchVehicles(email: String, completion: @escaping (Vehicle?, Error?) -> Void) {
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+        
+        let queryExpression = AWSDynamoDBQueryExpression()
+        queryExpression.keyConditionExpression = "email = :email" // Changed username to email
+        queryExpression.expressionAttributeValues = [":email": email]
+        
+        dynamoDBObjectMapper.query(Vehicle.self, expression: queryExpression) { (output, error) in
+            if let error = error {
+                completion(nil, error)
+            } else if let vehicle = output?.items.first as? Vehicle {
+                completion(vehicle, nil)
+            } else {
+                completion(nil, nil)
+            }
+        }
+    }
+    
     func saveUser(_ user: User, completion: @escaping (Error?) -> Void) {
         let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
         dynamoDBObjectMapper.save(user) { (error) in

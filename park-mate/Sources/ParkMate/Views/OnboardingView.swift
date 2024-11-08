@@ -17,6 +17,7 @@ struct OnboardingView: View {
     @State private var alertItem: AlertItem?
     @State private var isLoading = false
     @State private var isLoggedIn = false
+    @AppStorage("hasVehicles") private var hasVehicles = false
     
     // Validation states
     @State private var isEmailValid = true
@@ -242,6 +243,25 @@ struct OnboardingView: View {
             }
         }
         
+        // Fetch vehicles from DynamoDB based on email
+        DatabaseManager.shared.fetchVehicles(email: email) { vehicle, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    print("Error fetching user: \(error.localizedDescription)")
+                    self.alertItem = AlertItem(message: "An error occured. Please try again later.")
+                }
+                isLoading = false
+                return
+            }
+
+            DispatchQueue.main.async {
+                if let vehicle = vehicle {
+                    hasVehicles = true
+                } else {
+                    hasVehicles = false
+                }
+            }
+        }
         isLoading = false
         
     }
