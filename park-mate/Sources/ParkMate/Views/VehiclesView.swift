@@ -11,7 +11,7 @@ struct Vehicle: Identifiable {
     var licensePlate: String
 }
 
-struct SignUpCarsView: View {
+struct VehiclesView: View {
     @State private var vehicles: [Vehicle] = []
     @State private var licensePlate: String = ""
     @State private var selectedVehicleType: Int = 0
@@ -32,20 +32,25 @@ struct SignUpCarsView: View {
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
-                .padding()
+//                .padding()
                 
-                TextField("License Plate Number", text: $licensePlate)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                ClearableTextField(title: "License Plate Number", text: $licensePlate)
+                    .textFieldStyle(.roundedBorder)
                     .padding()
                 
                 // Add Vehicle Button
+//                Button(action: addVehicle) {
+//                    Text("Add Vehicle")
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.blue)
+//                        .cornerRadius(8)
+//                }
                 Button(action: addVehicle) {
                     Text("Add Vehicle")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(8)
                 }
+                .buttonStyle(.borderedProminent)
+                .padding(.bottom)
                 
                 // List of added vehicles
                 List {
@@ -57,19 +62,17 @@ struct SignUpCarsView: View {
                     }
                     .onDelete(perform: deleteVehicle)
                 }
-                
-                // Continue Button
-                Button(action: proceedToNextScreen) {
-                    Text("Continue")
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.green)
-                        .cornerRadius(8)
-                }
-                .padding()
             }
-            .navigationTitle("Add Vehicles")
+        }
+        .navigationTitle("Vehicles")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Save") {
+//                    validateAndSave()
+                    print("Save")
+                }
+            }
         }
     }
     
