@@ -4,9 +4,6 @@
     "Add Vehicle" : {
 
     },
-    "Add Vehicles" : {
-
-    },
     "Appearance" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -431,9 +428,6 @@
       }
     },
     "This is a placeholder." : {
-
-    },
-    "Type: %@" : {
 
     },
     "Vehicles" : {

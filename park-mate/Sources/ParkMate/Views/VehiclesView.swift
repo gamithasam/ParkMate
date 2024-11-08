@@ -55,9 +55,9 @@ struct VehiclesView: View {
                 // List of added vehicles
                 List {
                     ForEach(vehicles) { vehicle in
-                        VStack(alignment: .leading) {
-                            Text("Type: \(vehicle.type)")
-                            Text("License Plate: \(vehicle.licensePlate)")
+                        HStack {
+                            Image(systemName: vehicleIcons[vehicleTypes.firstIndex(of: vehicle.type) ?? 0])
+                            Text(vehicle.licensePlate)
                         }
                     }
                     .onDelete(perform: deleteVehicle)
