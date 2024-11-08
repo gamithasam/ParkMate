@@ -4,17 +4,20 @@
 
 #if !SKIP
 import SwiftUI
+import AWSDynamoDB
 
-struct Vehicle: Identifiable {
+struct VehicleAdd: Identifiable {
     let id = UUID()
     var type: String
     var licensePlate: String
 }
 
 struct VehiclesView: View {
-    @State private var vehicles: [Vehicle] = []
+    @State private var vehicles: [VehicleAdd] = []
     @State private var licensePlate: String = ""
     @State private var selectedVehicleType: Int = 0
+    @State private var isSaving: Bool = false
+    @State private var changed: Bool = false
     
     let vehicleTypes = ["Car", "Bicycle", "Motorcycle", "Truck"]
     let vehicleIcons = ["car.fill", "bicycle", "motorcycle.fill", "truck.box.fill"]
@@ -38,14 +41,6 @@ struct VehiclesView: View {
                     .textFieldStyle(.roundedBorder)
                     .padding()
                 
-                // Add Vehicle Button
-//                Button(action: addVehicle) {
-//                    Text("Add Vehicle")
-//                        .foregroundColor(.white)
-//                        .padding()
-//                        .background(Color.blue)
-//                        .cornerRadius(8)
-//                }
                 Button(action: addVehicle) {
                     Text("Add Vehicle")
                 }
@@ -68,11 +63,18 @@ struct VehiclesView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Save") {
-//                    validateAndSave()
-                    print("Save")
+                Button(action: saveVehicles) {
+                    if isSaving {
+                        ProgressView()
+                    } else {
+                        Text("Save")
+                    }
                 }
+                .disabled(isSaving || changed)
             }
+        }
+        .onAppear {
+            fetchVehicles()
         }
     }
     
@@ -80,8 +82,10 @@ struct VehiclesView: View {
         guard !licensePlate.isEmpty else { return }
         
         let vehicleType: String = vehicleTypes[selectedVehicleType]
-        let newVehicle = Vehicle(type: vehicleType, licensePlate: licensePlate)
+        let newVehicle = VehicleAdd(type: vehicleType, licensePlate: licensePlate)
         vehicles.append(newVehicle)
+        
+        changed = true
         
         // Clear the input fields
         selectedVehicleType = 0
@@ -90,11 +94,80 @@ struct VehiclesView: View {
     
     private func deleteVehicle(at offsets: IndexSet) {
         vehicles.remove(atOffsets: offsets)
+        changed = true
     }
     
-    private func proceedToNextScreen() {
-        // Implement navigation to next screen
-        // You can also validate if at least one vehicle is added
+    private func saveVehicles() {
+        isSaving = true
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+        
+        // Get the user's email from UserDefaults
+        guard let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
+            isSaving = false
+            print("Email not found in UserDefaults")
+//            self.alertItem = AlertItem(message: "An error occurred. Please try again.") //TODO: Add alerts
+            return
+        }
+
+        let saveGroup = DispatchGroup()
+
+        for vehicle in vehicles {
+            let vehicleItem = Vehicle()
+            vehicleItem!.type = vehicle.type
+            vehicleItem!.licensePlate = vehicle.licensePlate
+            vehicleItem!.email = userEmail
+
+            saveGroup.enter()
+            dynamoDBObjectMapper.save(vehicleItem!) { error in
+                if let error = error {
+                    print("Failed to save vehicle: \(error)")
+                }
+                saveGroup.leave()
+            }
+        }
+
+        saveGroup.notify(queue: .main) {
+            isSaving = false
+            print("All vehicles saved successfully.")
+//            dismiss() //TODO: add dismiss
+        }
+    }
+
+    private func fetchVehicles() {
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+        let queryExpression = AWSDynamoDBQueryExpression()
+        
+        // Get the user's email from UserDefaults
+        guard let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
+            print("Email not found in UserDefaults")
+//            self.alertItem = AlertItem(message: "An error occurred. Please try again.") //TODO: Add alerts
+//            dismiss() //TODO: Add dismiss
+            return
+        }
+        
+        // Set the key condition expression
+        queryExpression.keyConditionExpression = "#email = :emailValue"
+        
+        // Set the expression attribute names and values
+        queryExpression.expressionAttributeNames = ["#email": "email"]
+        queryExpression.expressionAttributeValues = [":emailValue": userEmail]
+
+        dynamoDBObjectMapper.query(Vehicle.self, expression: queryExpression) { (output, error) in
+            if let error = error {
+                print("Failed to fetch vehicles: \(error)")
+    //            self.alertItem = AlertItem(message: "An error occurred. Please try again.") //TODO: Add alerts
+    //            dismiss() //TODO: Add dismiss
+            } else if let items = output?.items as? [Vehicle] {
+                DispatchQueue.main.async {
+                    self.vehicles = items.compactMap { item in
+                        if let type = item.type, let licensePlate = item.licensePlate {
+                            return VehicleAdd(type: type, licensePlate: licensePlate)
+                        }
+                        return nil
+                    }
+                }
+            }
+        }
     }
 }
 #endif
