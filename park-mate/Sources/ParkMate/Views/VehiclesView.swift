@@ -21,7 +21,7 @@ struct VehiclesView: View {
     @State private var changed: Bool = false
     @Environment(\.dismiss) private var dismiss
     @AppStorage("hasVehicles") private var hasVehicles = false
-    @State var fromLaunch = false
+    var fromLaunch = false
     
     let vehicleTypes = ["Car", "Bicycle", "Motorcycle", "Truck"]
     let vehicleIcons = ["car.fill", "bicycle", "motorcycle.fill", "truck.box.fill"]
@@ -39,7 +39,6 @@ struct VehiclesView: View {
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
-//                .padding()
                 
                 ClearableTextField(title: "License Plate Number", text: $licensePlate)
                     .textFieldStyle(.roundedBorder)
@@ -60,6 +59,18 @@ struct VehiclesView: View {
                         }
                     }
                     .onDelete(perform: deleteVehicle)
+                }
+                
+                if fromLaunch {
+                    Button(action: saveVehicles) {
+                        if isSaving {
+                            ProgressView()
+                        } else {
+                            Text("Save")
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(isSaving || !changed)
                 }
             }
         }

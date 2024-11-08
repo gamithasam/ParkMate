@@ -61,10 +61,11 @@ public struct RootView : View {
         if !isLoggedIn {
             OnboardingView()
         } else if !hasVehicles {
-            NavigationStack {
-                VehiclesView(fromLaunch: true)
-                    .navigationBarBackButtonHidden(true)
-            }
+//            NavigationStack {
+//                VehiclesView(fromLaunch: true)
+//                    .navigationBarBackButtonHidden(true)
+//            }
+            VehiclesView(fromLaunch: true)
         } else {
             ContentView()
         }
