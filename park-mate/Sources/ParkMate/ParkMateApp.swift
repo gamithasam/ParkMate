@@ -18,10 +18,9 @@ let androidSDK = ProcessInfo.processInfo.environment["android.os.Build.VERSION.S
 ///
 /// The default implementation merely loads the `ContentView` for the app and logs a message.
 public struct RootView : View {
-//    @State private var isLoggedIn = false
     @AppStorage("isLoggedIn") private var isLoggedIn = false
-    @AppStorage("hasVehicles") private var hasVehicles = false
-    
+    @AppStorage("userVehicles") var userVehiclesData: Data = Data()
+
     public init() {
         #if !SKIP
         // Initialize AWS Configurations
@@ -60,11 +59,7 @@ public struct RootView : View {
         #if !SKIP
         if !isLoggedIn {
             OnboardingView()
-        } else if !hasVehicles {
-//            NavigationStack {
-//                VehiclesView(fromLaunch: true)
-//                    .navigationBarBackButtonHidden(true)
-//            }
+        } else if userVehiclesData.isEmpty {
             VehiclesView(fromLaunch: true)
         } else {
             ContentView()

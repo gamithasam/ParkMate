@@ -25,7 +25,7 @@ struct VehiclesView: View {
     @State private var isSaving: Bool = false
     @State private var changed: Bool = false
     @Environment(\.dismiss) private var dismiss
-    @AppStorage("hasVehicles") private var hasVehicles = false
+    @AppStorage("userVehicles") var userVehiclesData: Data = Data()
     var fromLaunch = false
     
     let vehicleTypes = ["Car", "Bicycle", "Motorcycle", "Truck"]
@@ -173,6 +173,24 @@ struct VehiclesView: View {
                 saveGroup.leave()
             }
         }
+        
+        // Serialize the vehicles array
+        let vehicleDataArray = vehicles.map { vehicle -> VehicleData in
+            return VehicleData(
+                type: vehicle.type,
+                licensePlate: vehicle.licensePlate
+            )
+        }
+
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(vehicleDataArray)
+            userVehiclesData = data
+            print("Vehicles saved to UserDefaults.")
+        } catch {
+            print("Failed to encode vehicles: \(error)")
+            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+        }
 
         saveGroup.notify(queue: .main) {
             isSaving = false
@@ -180,47 +198,60 @@ struct VehiclesView: View {
             if !fromLaunch {
                 print("Dismissing")
                 dismiss()
-            } else {
-                print("Changing hasVehicles")
-                hasVehicles = true
             }
         }
     }
 
+//    private func fetchVehicles() {
+//        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+//        let queryExpression = AWSDynamoDBQueryExpression()
+//        
+//        // Get the user's email from UserDefaults
+//        guard let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
+//            print("Email not found in UserDefaults")
+//            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+//            dismiss()
+//            return
+//        }
+//        
+//        // Set the key condition expression
+//        queryExpression.keyConditionExpression = "#email = :emailValue"
+//        
+//        // Set the expression attribute names and values
+//        queryExpression.expressionAttributeNames = ["#email": "email"]
+//        queryExpression.expressionAttributeValues = [":emailValue": userEmail]
+//
+//        dynamoDBObjectMapper.query(Vehicle.self, expression: queryExpression) { (output, error) in
+//            if let error = error {
+//                print("Failed to fetch vehicles: \(error)")
+//                self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+//                dismiss()
+//            } else if let items = output?.items as? [Vehicle] {
+//                DispatchQueue.main.async {
+//                    self.vehicles = items.compactMap { item in
+//                        if let type = item.type, let licensePlate = item.licensePlate {
+//                            return VehicleAdd(type: type, licensePlate: licensePlate)
+//                        }
+//                        return nil
+//                    }
+//                    self.originalVehicles = self.vehicles
+//                }
+//            }
+//        }
+//    }
     private func fetchVehicles() {
-        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
-        let queryExpression = AWSDynamoDBQueryExpression()
-        
-        // Get the user's email from UserDefaults
-        guard let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
-            print("Email not found in UserDefaults")
-            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
-            dismiss()
-            return
-        }
-        
-        // Set the key condition expression
-        queryExpression.keyConditionExpression = "#email = :emailValue"
-        
-        // Set the expression attribute names and values
-        queryExpression.expressionAttributeNames = ["#email": "email"]
-        queryExpression.expressionAttributeValues = [":emailValue": userEmail]
-
-        dynamoDBObjectMapper.query(Vehicle.self, expression: queryExpression) { (output, error) in
-            if let error = error {
-                print("Failed to fetch vehicles: \(error)")
-                self.alertItem = AlertItem(message: "An error occurred. Please try again.")
-                dismiss()
-            } else if let items = output?.items as? [Vehicle] {
-                DispatchQueue.main.async {
-                    self.vehicles = items.compactMap { item in
-                        if let type = item.type, let licensePlate = item.licensePlate {
-                            return VehicleAdd(type: type, licensePlate: licensePlate)
-                        }
-                        return nil
-                    }
-                    self.originalVehicles = self.vehicles
+        if !userVehiclesData.isEmpty {
+            do {
+                let decoder = JSONDecoder()
+                let vehicleDataArray = try decoder.decode([VehicleData].self, from: userVehiclesData)
+                vehicles = vehicleDataArray.map { data -> VehicleAdd in
+                    return VehicleAdd(
+                        type: data.type!,
+                        licensePlate: data.licensePlate!
+                    )
                 }
+            } catch {
+                print("Failed to decode vehicles: \(error)")
             }
         }
     }

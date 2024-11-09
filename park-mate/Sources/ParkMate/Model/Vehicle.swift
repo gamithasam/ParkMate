@@ -23,4 +23,9 @@ class Vehicle: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
         return "licensePlate"
     }
 }
+
+struct VehicleData: Codable {
+    var type: String?
+    var licensePlate: String?
+}
 #endif
