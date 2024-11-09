@@ -202,43 +202,6 @@ struct VehiclesView: View {
         }
     }
 
-//    private func fetchVehicles() {
-//        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
-//        let queryExpression = AWSDynamoDBQueryExpression()
-//        
-//        // Get the user's email from UserDefaults
-//        guard let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
-//            print("Email not found in UserDefaults")
-//            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
-//            dismiss()
-//            return
-//        }
-//        
-//        // Set the key condition expression
-//        queryExpression.keyConditionExpression = "#email = :emailValue"
-//        
-//        // Set the expression attribute names and values
-//        queryExpression.expressionAttributeNames = ["#email": "email"]
-//        queryExpression.expressionAttributeValues = [":emailValue": userEmail]
-//
-//        dynamoDBObjectMapper.query(Vehicle.self, expression: queryExpression) { (output, error) in
-//            if let error = error {
-//                print("Failed to fetch vehicles: \(error)")
-//                self.alertItem = AlertItem(message: "An error occurred. Please try again.")
-//                dismiss()
-//            } else if let items = output?.items as? [Vehicle] {
-//                DispatchQueue.main.async {
-//                    self.vehicles = items.compactMap { item in
-//                        if let type = item.type, let licensePlate = item.licensePlate {
-//                            return VehicleAdd(type: type, licensePlate: licensePlate)
-//                        }
-//                        return nil
-//                    }
-//                    self.originalVehicles = self.vehicles
-//                }
-//            }
-//        }
-//    }
     private func fetchVehicles() {
         if !userVehiclesData.isEmpty {
             do {

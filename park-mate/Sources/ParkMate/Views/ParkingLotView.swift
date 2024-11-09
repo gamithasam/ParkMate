@@ -9,7 +9,11 @@ struct ParkingLotView: View {
     @State private var selectedDateNTime: Date = Date()
     @State private var hours: Int = 0
     @State private var selectedVehicle: Int = 0
+    @State private var vehicles: [VehicleData] = []
     var parkinglot: ParkingLot
+    
+    let vehicleTypes = ["Car", "Bicycle", "Motorcycle", "Truck"]
+    let vehicleIcons = ["car.fill", "bicycle", "motorcycle.fill", "truck.box.fill"]
 
     var body: some View {
         NavigationView {
@@ -29,26 +33,17 @@ struct ParkingLotView: View {
                 
                 Section(header: Text("Vehicle")) {
                     Picker("Vehicle", selection: $selectedVehicle) {
-                        Label {
-                            Text("ABC-1234")
-                        } icon: {
-                            Image(systemName: "car.fill")
-                                .foregroundColor(.blue)
-                        }.tag(0)
-                        
-                        Label {
-                            Text("FHR-4541")
-                        } icon: {
-                            Image(systemName: "car.fill")
-                                .foregroundColor(.blue)
-                        }.tag(1)
-                        
-                        Label {
-                            Text("DVD-2313")
-                        } icon: {
-                            Image(systemName: "truck.box.fill")
-                                .foregroundColor(.blue)
-                        }.tag(2)
+                        ForEach(vehicles.indices, id: \.self) { index in
+                            let vehicle = vehicles[index]
+                            Label {
+                                Text(vehicle.licensePlate ?? "Unknown")
+                            } icon: {
+                                let iconIndex = vehicleTypes.firstIndex(of: vehicle.type!) ?? 0
+                                Image(systemName: vehicleIcons[iconIndex])
+                                    .foregroundColor(.blue)
+                            }
+                            .tag(index)
+                        }
                     }
                     .pickerStyle(MenuPickerStyle())
                 }
@@ -78,6 +73,23 @@ struct ParkingLotView: View {
             }
             .listStyle(InsetGroupedListStyle())
             .navigationTitle(parkinglot.name ?? "Parking Lot")
+        }
+        .onAppear {
+            loadVehiclesFromUserDefaults()
+        }
+    }
+    
+    private func loadVehiclesFromUserDefaults() {
+        if let data = UserDefaults.standard.data(forKey: "userVehicles") {
+            do {
+                let decoder = JSONDecoder()
+                vehicles = try decoder.decode([VehicleData].self, from: data)
+            } catch {
+                print("Failed to decode vehicles: \(error)")
+                // Handle the error appropriately
+            }
+        } else {
+            print("No vehicles found in UserDefaults.")
         }
     }
 }
