@@ -7,7 +7,7 @@ import SwiftUI
 
 struct ParkingLotView: View {
     @State private var selectedDateNTime: Date = Date()
-    @State private var hours: Int = 0
+    @State private var hours: Int = 1
     @State private var selectedVehicle: Int = 0
     @State private var vehicles: [VehicleData] = []
     var parkinglot: ParkingLot
