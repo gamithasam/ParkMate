@@ -31,6 +31,8 @@ struct ParkingLotReserveView: View {
     let parkingLotId: Int
     @State private var parkingSpots: [ParkingSpot] = []
     @State private var isLoading = true
+    @State private var alertItem: AlertItem?
+    @Environment(\.dismiss) private var dismiss
     var selectedCount: Int {
         parkingSpots.filter { $0.status == .selected }.count
     }
@@ -42,11 +44,7 @@ struct ParkingLotReserveView: View {
             if isLoading {
                 ProgressView("Loading Parking Spots...")
                     .padding()
-//            } else if let errorMessage = errorMessage {
-//                Text(errorMessage)
-//                    .foregroundColor(.red)
-//                    .padding()
-            } else {
+            } else if alertItem == nil {
                 LazyVGrid(columns: columns, spacing: 8) {
                     ForEach($parkingSpots) { $spot in
                         switch (spot.status) {
@@ -142,6 +140,13 @@ struct ParkingLotReserveView: View {
         .onAppear {
             loadParkingSpots()
         }
+        .alert(item: $alertItem) { alert in
+            Alert(
+                title: Text("Error"),
+                message: Text(alert.message),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
     
     func loadParkingSpots() {
@@ -149,11 +154,11 @@ struct ParkingLotReserveView: View {
             DispatchQueue.main.async {
                 self.isLoading = false
                 if let error = error {
-//                    self.errorMessage = "Failed to load parking spots: \(error.localizedDescription)"
+                    self.alertItem = AlertItem(message: "Failed to load parking spots")
                     print("Failed to load parking spots: \(error.localizedDescription)")
+                    dismiss()
                 } else if let spots = spots {
                     self.parkingSpots = spots
-                    print(parkingSpots)
                 }
             }
         }
