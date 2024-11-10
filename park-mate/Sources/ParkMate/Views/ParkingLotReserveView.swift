@@ -71,11 +71,14 @@ struct ParkingLotReserveView: View {
                             }
                             .buttonStyle(.bordered)
                             .tint(.blue)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .fixedSize(horizontal: true, vertical: true)
                         case .occupied:
                             Button(action: {
                                 print("Tapped spot \(spot.spotId)")
                             }) {
+//                                Image("CarIcon")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
                                 VStack(spacing: 2) {
                                     Text(spot.spotId)
                                         .font(.body)
@@ -86,7 +89,8 @@ struct ParkingLotReserveView: View {
                                 .padding(.horizontal, 12)
                             }
                             .buttonStyle(.bordered)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundColor(.black)
+                            .fixedSize(horizontal: true, vertical: true)
                         case .reserved:
                             Button(action: {
                                 print("Tapped spot \(spot.spotId)")
@@ -102,7 +106,7 @@ struct ParkingLotReserveView: View {
                             }
                             .buttonStyle(.borderedProminent)
                             .tint(.red)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .fixedSize(horizontal: true, vertical: true)
                         case .selected:
                             Button(action: {
                                 print("Tapped spot \(spot.spotId)")
@@ -118,7 +122,7 @@ struct ParkingLotReserveView: View {
                                 .padding(.horizontal, 12)
                             }
                             .buttonStyle(.borderedProminent)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .fixedSize(horizontal: true, vertical: true)
                         }
                     }
                 }
