@@ -165,7 +165,7 @@ struct ParkingLotReserveView: View {
                     print("Failed to load parking spots: \(error.localizedDescription)")
                     selectedLot = nil
                 } else if let spots = spots {
-                    self.parkingSpots = spots
+                    self.parkingSpots = spots.sorted { $0.spotId < $1.spotId }
                 }
             }
         }
