@@ -53,5 +53,24 @@ class DatabaseManager {
             completion(error)
         }
     }
+    
+    func fetchParkingSpots(parkingLotId: Int, completion: @escaping ([ParkingSpot]?, Error?) -> Void) {
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+        
+        let queryExpression = AWSDynamoDBQueryExpression()
+        queryExpression.keyConditionExpression = "parkingLotId = :parkingLotId"
+        queryExpression.expressionAttributeValues = [":parkingLotId": parkingLotId]
+        
+        dynamoDBObjectMapper.query(ParkingSpotItem.self, expression: queryExpression) { (output, error) in
+            if let error = error {
+                completion(nil, error)
+            } else if let items = output?.items as? [ParkingSpotItem], let spotsDict = items.first?.spots {
+                let parkingSpots = spotsDict.map { ParkingSpot(spotId: $0.key, status: ParkingSpot.SpotStatus(rawValue: $0.value.capitalized) ?? .Available) }
+                completion(parkingSpots, nil)
+            } else {
+                completion([], nil)
+            }
+        }
+    }
 }
 #endif

@@ -71,7 +71,7 @@ struct ParkingLotView: View {
 //                            Spacer()
 //                        }
 //                    }
-                    NavigationLink(destination: ParkingLotReserveView()) {
+                    NavigationLink(destination: ParkingLotReserveView(parkingLotId: parkinglot.parkingLotId!.intValue)) {
                         Spacer()
                         Text("Next")
                         Spacer()

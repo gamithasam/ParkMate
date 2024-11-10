@@ -10,10 +10,10 @@ struct ParkingSpot: Identifiable {
     let id = UUID()
     let spotId: String
     var status: SpotStatus
-
-    enum SpotStatus: CustomStringConvertible {
+    
+    enum SpotStatus: String, CustomStringConvertible {
         case Available, Occupied, Reserved, Selected
-
+        
         var description: String {
             switch self {
             case .Available: return "Available"
@@ -28,17 +28,9 @@ struct ParkingSpot: Identifiable {
 // Sample data
 
 struct ParkingLotReserveView: View {
-    @State private var parkingSpots = [
-        ParkingSpot(spotId: "A-01", status: .Selected),
-        ParkingSpot(spotId: "A-02", status: .Occupied),
-        ParkingSpot(spotId: "A-03", status: .Reserved),
-        ParkingSpot(spotId: "A-04", status: .Available),
-        ParkingSpot(spotId: "A-05", status: .Occupied),
-        ParkingSpot(spotId: "A-06", status: .Available),
-        ParkingSpot(spotId: "A-07", status: .Reserved),
-        ParkingSpot(spotId: "A-08", status: .Available),
-        ParkingSpot(spotId: "A-09", status: .Occupied)
-    ]
+    let parkingLotId: Int
+    @State private var parkingSpots: [ParkingSpot] = []
+    @State private var isLoading = true
     var selectedCount: Int {
         parkingSpots.filter { $0.status == .Selected }.count
     }
@@ -47,77 +39,86 @@ struct ParkingLotReserveView: View {
     
     var body: some View {
         VStack {
-            LazyVGrid(columns: columns, spacing: 8) {
-                ForEach($parkingSpots) { $spot in
-                    switch (spot.status) {
-                    case .Available:
-                        Button(action: {
-                            print("Tapped spot \(spot.spotId)")
-                            spot.status = .Selected
-                        }) {
-                            VStack(spacing: 2) {
-                                Text(spot.spotId)
-                                    .font(.body)
-                                Text(spot.status.description)
-                                    .font(.caption)
+            if isLoading {
+                ProgressView("Loading Parking Spots...")
+                    .padding()
+//            } else if let errorMessage = errorMessage {
+//                Text(errorMessage)
+//                    .foregroundColor(.red)
+//                    .padding()
+            } else {
+                LazyVGrid(columns: columns, spacing: 8) {
+                    ForEach($parkingSpots) { $spot in
+                        switch (spot.status) {
+                        case .Available:
+                            Button(action: {
+                                print("Tapped spot \(spot.spotId)")
+                                spot.status = .Selected
+                            }) {
+                                VStack(spacing: 2) {
+                                    Text(spot.spotId)
+                                        .font(.body)
+                                    Text(spot.status.description)
+                                        .font(.caption)
+                                }
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 12)
                             }
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 12)
-                        }
-                        .buttonStyle(.bordered)
-                        .tint(.blue)
-                        .fixedSize(horizontal: false, vertical: true)
-                    case .Occupied:
-                        Button(action: {
-                            print("Tapped spot \(spot.spotId)")
-                        }) {
-                            VStack(spacing: 2) {
-                                Text(spot.spotId)
-                                    .font(.body)
-                                Text(spot.status.description)
-                                    .font(.caption)
+                            .buttonStyle(.bordered)
+                            .tint(.blue)
+                            .fixedSize(horizontal: false, vertical: true)
+                        case .Occupied:
+                            Button(action: {
+                                print("Tapped spot \(spot.spotId)")
+                            }) {
+                                VStack(spacing: 2) {
+                                    Text(spot.spotId)
+                                        .font(.body)
+                                    Text(spot.status.description)
+                                        .font(.caption)
+                                }
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 12)
                             }
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 12)
-                        }
-                        .buttonStyle(.bordered)
-                        .fixedSize(horizontal: false, vertical: true)
-                    case .Reserved:
-                        Button(action: {
-                            print("Tapped spot \(spot.spotId)")
-                        }) {
-                            VStack(spacing: 2) {
-                                Text(spot.spotId)
-                                    .font(.body)
-                                Text(spot.status.description)
-                                    .font(.caption)
+                            .buttonStyle(.bordered)
+                            .fixedSize(horizontal: false, vertical: true)
+                        case .Reserved:
+                            Button(action: {
+                                print("Tapped spot \(spot.spotId)")
+                            }) {
+                                VStack(spacing: 2) {
+                                    Text(spot.spotId)
+                                        .font(.body)
+                                    Text(spot.status.description)
+                                        .font(.caption)
+                                }
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 12)
                             }
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 12)
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.red)
-                        .fixedSize(horizontal: false, vertical: true)
-                    case .Selected:
-                        Button(action: {
-                            print("Tapped spot \(spot.spotId)")
-                            spot.status = .Available
-                        }) {
-                            VStack(spacing: 2) {
-                                Text(spot.spotId)
-                                    .font(.body)
-                                Text(spot.status.description)
-                                    .font(.caption)
+                            .buttonStyle(.borderedProminent)
+                            .tint(.red)
+                            .fixedSize(horizontal: false, vertical: true)
+                        case .Selected:
+                            Button(action: {
+                                print("Tapped spot \(spot.spotId)")
+                                spot.status = .Available
+                            }) {
+                                VStack(spacing: 2) {
+                                    Text(spot.spotId)
+                                        .font(.body)
+                                    Text(spot.status.description)
+                                        .font(.caption)
+                                }
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 12)
                             }
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 12)
+                            .buttonStyle(.borderedProminent)
+                            .fixedSize(horizontal: false, vertical: true)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .fixedSize(horizontal: false, vertical: true)
                     }
                 }
+                .padding()
             }
-            .padding()
             
             Spacer()
             
@@ -138,6 +139,24 @@ struct ParkingLotReserveView: View {
             .disabled(selectedCount == 0)
         }
         .frame(maxHeight: .infinity)
+        .onAppear {
+            loadParkingSpots()
+        }
+    }
+    
+    func loadParkingSpots() {
+        DatabaseManager.shared.fetchParkingSpots(parkingLotId: parkingLotId) { spots, error in
+            DispatchQueue.main.async {
+                self.isLoading = false
+                if let error = error {
+//                    self.errorMessage = "Failed to load parking spots: \(error.localizedDescription)"
+                    print("Failed to load parking spots: \(error.localizedDescription)")
+                } else if let spots = spots {
+                    self.parkingSpots = spots
+                    print(parkingSpots)
+                }
+            }
+        }
     }
 }
 #endif
