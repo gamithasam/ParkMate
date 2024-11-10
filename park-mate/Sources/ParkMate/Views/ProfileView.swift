@@ -7,8 +7,8 @@ import SwiftUI
 struct ProfileView: View {
     var body: some View {
         NavigationStack {
-            VStack {
-                List {
+            List {
+                Section {
                     VStack(spacing: 15) {
                         ZStack {
                             Rectangle()
@@ -31,8 +31,11 @@ struct ProfileView: View {
                     .padding(.vertical, 25)
                     .padding(.horizontal, 20)
                 }
+                #if !SKIP
+                .listRowInsets(EdgeInsets())
+                #endif
                 
-                List {
+                Section {
                     #if !SKIP
                     NavigationLink(destination: PersonalInfoView()) {
                         Text("Personal information")
