@@ -64,7 +64,6 @@ struct ProfileView: View {
                 #endif
             }
             .navigationTitle("Profile")
-//            .navigationBarTitleDisplayMode(.inline)
         }
     }
     

@@ -24,12 +24,7 @@ struct CardView: View {
                             .cornerRadius(10)
                             .clipped()
                     case .failure:
-                        Image("Logo") // TODO: Show a placeholder if image loading fails
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 80, height: 80)
-                            .cornerRadius(10)
-                            .clipped()
+                        FailedImageView() // Show a placeholder if image loading fails
                     @unknown default:
                         EmptyView()
                             .frame(width: 80, height: 80)
@@ -37,12 +32,7 @@ struct CardView: View {
                     }
                 }
             } else {
-                Image("replace") // TODO: Show a default placeholder if URL is nil
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 80, height: 80)
-                    .cornerRadius(10)
-                    .clipped()
+                FailedImageView() // Show a default placeholder if URL is nil
             }
             VStack(alignment: .leading) {
                 Text(parkinglot.name ?? "Car Park Name")

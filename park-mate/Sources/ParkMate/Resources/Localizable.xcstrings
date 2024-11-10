@@ -7,6 +7,12 @@
     "%lld" : {
 
     },
+    "3:00 PM" : {
+
+    },
+    "11/12/2024" : {
+
+    },
     "Add Vehicle" : {
 
     },
@@ -196,6 +202,12 @@
         }
       }
     },
+    "Kandy" : {
+
+    },
+    "KCC Car Park" : {
+
+    },
     "Last Name" : {
 
     },
@@ -293,6 +305,12 @@
     "Passwords do not match" : {
 
     },
+    "Pay" : {
+
+    },
+    "Payables" : {
+
+    },
     "per hour" : {
 
     },
@@ -353,6 +371,9 @@
 
     },
     "Reserved" : {
+
+    },
+    "Rs.888" : {
 
     },
     "Save" : {
