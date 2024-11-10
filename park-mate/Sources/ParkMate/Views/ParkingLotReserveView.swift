@@ -4,6 +4,7 @@
 
 #if !SKIP
 import SwiftUI
+import AWSDynamoDB
 
 // Model for a parking spot
 struct ParkingSpot: Identifiable {
@@ -29,11 +30,14 @@ struct ParkingSpot: Identifiable {
 
 struct ParkingLotReserveView: View {
     let parkingLotId: Int
+    let selectedDateNTime: Date
+    let hours: Int
+    let vehicle: String
+    
     @State private var parkingSpots: [ParkingSpot] = []
     @State private var isLoading = true
     @State private var isReserving = false
     @State private var alertItem: AlertItem?
-//    @Environment(\.dismiss) private var dismiss
     var selectedCount: Int {
         parkingSpots.filter { $0.status == .selected }.count
     }
@@ -179,6 +183,7 @@ struct ParkingLotReserveView: View {
         
         isReserving = true
         
+        // Update ParkingSpots Table
         DatabaseManager.shared.reserveParkingSpots(parkingLotId: parkingLotId, spotIds: spotIdsToReserve) { error in
             DispatchQueue.main.async {
                 self.isReserving = false
@@ -186,8 +191,34 @@ struct ParkingLotReserveView: View {
                     self.alertItem = AlertItem(message: "Failed to reserve parking spots")
                     print("Failed to reserve spots: \(error.localizedDescription)")
                 } else {
+                    // After successfully reserving spots, add reservations
+                    self.addReservations(for: selectedSpots)
                     selectedLot = nil
                 }
+            }
+        }
+    }
+    
+    func addReservations(for spots: [ParkingSpot]) {
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+        let dispatchGroup = DispatchGroup()
+        
+        for spot in spots {
+            dispatchGroup.enter()
+            
+            let reservation = Reservation()
+            reservation!.email = UserDefaults.standard.string(forKey: "userEmail")
+            reservation!.parkingLotId = NSNumber(value: self.parkingLotId)
+            reservation!.spotId = spot.spotId
+            reservation!.dateNTime = DateFormatter.localizedString(from: self.selectedDateNTime, dateStyle: .medium, timeStyle: .medium)
+            reservation!.vehicle = self.vehicle
+            
+            dynamoDBObjectMapper.save(reservation!) { error in
+                if let error = error {
+                    print("Failed to add reservation for spot \(spot.spotId): \(error.localizedDescription)")
+                    self.alertItem = AlertItem(message: "Failed to add reservation")
+                }
+                dispatchGroup.leave()
             }
         }
     }

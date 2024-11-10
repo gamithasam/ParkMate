@@ -73,7 +73,13 @@ struct ParkingLotView: View {
 //                            Spacer()
 //                        }
 //                    }
-                    NavigationLink(destination: ParkingLotReserveView(parkingLotId: parkinglot.parkingLotId!.intValue, selectedLot: $selectedLot)) {
+                    NavigationLink(destination: ParkingLotReserveView(
+                        parkingLotId: parkinglot.parkingLotId!.intValue,
+                        selectedDateNTime: self.selectedDateNTime,
+                        hours: self.hours,
+                        vehicle: vehicleTypes[selectedVehicle],
+                        selectedLot: $selectedLot
+                    )) {
                         Spacer()
                         Text("Next")
                         Spacer()
