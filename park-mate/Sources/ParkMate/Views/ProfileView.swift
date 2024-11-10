@@ -68,9 +68,13 @@ struct ProfileView: View {
         }
     }
     
-    @ViewBuilder
-    private func destinationView() -> some View {
-        Text("This is a placeholder.") // Placeholder view
+    #if !SKIP
+    private func logout() {
+        if let appDomain = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: appDomain)
+            UserDefaults.standard.synchronize()
+        }
     }
+    #endif
 }
 

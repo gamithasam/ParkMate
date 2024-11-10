@@ -22,13 +22,15 @@ struct SignUpView: View {
     @State private var doPasswordsMatch = true
     @State private var isBirthdayValid = true
     
+    let parkMateColor: Color = Color(red: 0.0, green: 52/255, blue: 121/255)
+    
     var body: some View {
         VStack(spacing: 20) {
             Image(systemName: "person.crop.circle.badge.plus")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
-                .foregroundColor(.orange)
+                .foregroundColor(parkMateColor)
             
             Text("Create an Account")
                 .font(.title)
@@ -118,7 +120,7 @@ struct SignUpView: View {
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.orange)
+                        .background(.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .padding(.horizontal)

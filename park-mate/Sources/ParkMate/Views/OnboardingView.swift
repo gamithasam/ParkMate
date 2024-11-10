@@ -23,6 +23,8 @@ struct OnboardingView: View {
     @State private var isEmailValid = true
     @State private var isPasswordValid = true
     
+    let parkMateColor: Color = Color(red: 0.0, green: 52/255, blue: 121/255)
+    
     var body: some View {
         NavigationStack {
             TabView(selection: $currentTab) {
@@ -50,7 +52,7 @@ struct OnboardingView: View {
                             .font(.headline)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.blue)
+                            .background(parkMateColor)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .padding(.horizontal)
@@ -64,7 +66,7 @@ struct OnboardingView: View {
                     Image(systemName: "person.crop.circle")
                         .resizable()
                         .frame(width: 100, height: 100)
-                        .foregroundColor(.green)
+                        .foregroundColor(parkMateColor)
                     
                     Text("Sign In")
                         .font(.title)
@@ -121,7 +123,7 @@ struct OnboardingView: View {
                                 .font(.headline)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.green)
+                                .background(.blue)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                                 .padding(.horizontal)
@@ -275,6 +277,13 @@ struct OnboardingView: View {
         }
         isLoading = false
         
+    }
+    
+    private func logout() {
+        if let appDomain = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: appDomain)
+            UserDefaults.standard.synchronize()
+        }
     }
     #endif
 }
