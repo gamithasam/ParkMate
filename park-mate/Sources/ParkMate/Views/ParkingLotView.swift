@@ -12,6 +12,8 @@ struct ParkingLotView: View {
     @State private var vehicles: [VehicleData] = []
     var parkinglot: ParkingLot
     
+    @Binding var selectedLot: ParkingLot?
+    
     let vehicleTypes = ["Car", "Bicycle", "Motorcycle", "Truck"]
     let vehicleIcons = ["car.fill", "bicycle", "motorcycle.fill", "truck.box.fill"]
 
@@ -71,7 +73,7 @@ struct ParkingLotView: View {
 //                            Spacer()
 //                        }
 //                    }
-                    NavigationLink(destination: ParkingLotReserveView(parkingLotId: parkinglot.parkingLotId!.intValue)) {
+                    NavigationLink(destination: ParkingLotReserveView(parkingLotId: parkinglot.parkingLotId!.intValue, selectedLot: $selectedLot)) {
                         Spacer()
                         Text("Next")
                         Spacer()

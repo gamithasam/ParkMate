@@ -18,7 +18,7 @@ struct CarousalView: View {
                         selectedLot = lot
                     }
                     .sheet(item: $selectedLot) { selectedLot in
-                        ParkingLotView(parkinglot: selectedLot)
+                        ParkingLotView(parkinglot: selectedLot, selectedLot: $selectedLot)
                             .presentationDetents([.large])
                             .presentationDragIndicator(.visible)
                     }

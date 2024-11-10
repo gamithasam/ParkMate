@@ -31,11 +31,14 @@ struct ParkingLotReserveView: View {
     let parkingLotId: Int
     @State private var parkingSpots: [ParkingSpot] = []
     @State private var isLoading = true
+    @State private var isReserving = false
     @State private var alertItem: AlertItem?
-    @Environment(\.dismiss) private var dismiss
+//    @Environment(\.dismiss) private var dismiss
     var selectedCount: Int {
         parkingSpots.filter { $0.status == .selected }.count
     }
+    
+    @Binding var selectedLot: ParkingLot?
     
     let columns = Array(repeating: GridItem(.flexible(), spacing: 16), count: 3)
     
@@ -123,7 +126,7 @@ struct ParkingLotReserveView: View {
             ParkingSpotLegendView()
             
             Button(action: {
-                print("Reserved")
+                reserveSpot()
             }) {
                 VStack(alignment: .center) {
                     Text("Reserve")
@@ -156,9 +159,30 @@ struct ParkingLotReserveView: View {
                 if let error = error {
                     self.alertItem = AlertItem(message: "Failed to load parking spots")
                     print("Failed to load parking spots: \(error.localizedDescription)")
-                    dismiss()
+                    selectedLot = nil
                 } else if let spots = spots {
                     self.parkingSpots = spots
+                }
+            }
+        }
+    }
+    
+    func reserveSpot() {
+        let selectedSpots = parkingSpots.filter { $0.status == .selected }
+        let spotIdsToReserve = selectedSpots.map { $0.spotId }
+        
+        guard !spotIdsToReserve.isEmpty else { return }
+        
+        isReserving = true
+        
+        DatabaseManager.shared.reserveParkingSpots(parkingLotId: parkingLotId, spotIds: spotIdsToReserve) { error in
+            DispatchQueue.main.async {
+                self.isReserving = false
+                if let error = error {
+                    self.alertItem = AlertItem(message: "Failed to reserve parking spots")
+                    print("Failed to reserve spots: \(error.localizedDescription)")
+                } else {
+                    selectedLot = nil
                 }
             }
         }

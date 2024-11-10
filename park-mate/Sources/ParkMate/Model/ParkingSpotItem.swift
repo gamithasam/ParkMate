@@ -8,7 +8,7 @@ import AWSDynamoDB
 
 @objcMembers
 class ParkingSpotItem: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
-    var parkingLotId: Int?
+    var parkingLotId: NSNumber?
     var spots: [String: String]?
 
     // MARK: - AWSDynamoDBModeling
