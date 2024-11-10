@@ -6,7 +6,7 @@
 import Foundation
 import AWSDynamoDB
 
-class Vehicle: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
+class Vehicle: AWSDynamoDBObjectModel, AWSDynamoDBModeling, Encodable {
     @objc var email: String?
     @objc var type: String?
     @objc var licensePlate: String?

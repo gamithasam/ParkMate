@@ -17,8 +17,8 @@ struct OnboardingView: View {
     @State private var alertItem: AlertItem?
     @State private var isLoading = false
     @State private var isLoggedIn = false
-    @AppStorage("hasVehicles") private var hasVehicles = false
-    
+    @AppStorage("userVehicles") var userVehiclesData: Data = Data()
+
     // Validation states
     @State private var isEmailValid = true
     @State private var isPasswordValid = true
@@ -244,23 +244,34 @@ struct OnboardingView: View {
         }
         
         // Fetch vehicles from DynamoDB based on email
-        DatabaseManager.shared.fetchVehicles(email: email) { vehicle, error in
+        DatabaseManager.shared.fetchVehicles(email: email) { vehicles, error in
             if let error = error {
                 DispatchQueue.main.async {
-                    print("Error fetching user: \(error.localizedDescription)")
-                    self.alertItem = AlertItem(message: "An error occured. Please try again later.")
+                    print("Error fetching vehicle: \(error.localizedDescription)")
+                    self.alertItem = AlertItem(message: "An error occured. Please log in again.")
+                    logout()
                 }
                 isLoading = false
                 return
             }
-
-            DispatchQueue.main.async {
-                if let vehicle = vehicle {
-                    hasVehicles = true
-                } else {
-                    hasVehicles = false
+            
+            // Encode vehicles to Data
+            if let vehicles = vehicles {
+                do {
+                    let encodedData = try JSONEncoder().encode(vehicles)
+                    DispatchQueue.main.async {
+                        userVehiclesData = encodedData
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        print("Error encoding vehicles: \(error.localizedDescription)")
+                        self.alertItem = AlertItem(message: "An error occured. Please log in again.")
+                        logout()
+                    }
                 }
             }
+            
+            isLoading = false
         }
         isLoading = false
         

@@ -48,6 +48,20 @@ struct ProfileView: View {
                     }
                     #endif
                 }
+                
+                #if !SKIP
+                Section {
+                    Button(role: .destructive) {
+                        logout()
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Text("Logout")
+                            Spacer()
+                        }
+                    }
+                }
+                #endif
             }
             .navigationTitle("Profile")
 //            .navigationBarTitleDisplayMode(.inline)
