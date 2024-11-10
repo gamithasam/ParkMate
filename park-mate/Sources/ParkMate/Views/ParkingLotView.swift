@@ -59,15 +59,22 @@ struct ParkingLotView: View {
                 }
                 
                 Section() {
-                    Button(action: {
-                        // Your action here
-                        print("Next")
-                    }) {
-                        HStack {
-                            Spacer()
-                            Text("Next")
-                            Spacer()
-                        }
+//                    Button(action: {
+//                        // Your action here
+//                        print("Next")
+//                    }) {
+//                        HStack {
+//                            Spacer()
+//                            NavigationLink(destination: ParkingLotReserveView()) {
+//                                Text("Next")
+//                            }
+//                            Spacer()
+//                        }
+//                    }
+                    NavigationLink(destination: ParkingLotReserveView()) {
+                        Spacer()
+                        Text("Next")
+                        Spacer()
                     }
                 }
             }

@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "(Rs.800)" : {
+
+    },
     "%lld" : {
 
     },
@@ -35,6 +38,9 @@
           }
         }
       }
+    },
+    "Available" : {
+
     },
     "Birthday" : {
 
@@ -266,6 +272,9 @@
     "Next" : {
 
     },
+    "Occupied" : {
+
+    },
     "OK" : {
 
     },
@@ -334,6 +343,12 @@
     "Reservations" : {
 
     },
+    "Reserve" : {
+
+    },
+    "Reserved" : {
+
+    },
     "Save" : {
 
     },
@@ -367,6 +382,9 @@
       }
     },
     "Select Vehicle" : {
+
+    },
+    "Selected" : {
 
     },
     "Settings" : {
