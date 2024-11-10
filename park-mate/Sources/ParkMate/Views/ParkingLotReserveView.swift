@@ -128,16 +128,20 @@ struct ParkingLotReserveView: View {
             Button(action: {
                 reserveSpot()
             }) {
-                VStack(alignment: .center) {
-                    Text("Reserve")
-                    Text("(Rs.800)")
+                if isReserving {
+                    ProgressView()
+                } else {
+                    VStack(alignment: .center) {
+                        Text("Reserve")
+                        Text("(Rs.800)")
+                    }
+                    .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
             .frame(maxWidth: .infinity)
             .padding()
-            .disabled(selectedCount == 0)
+            .disabled(selectedCount == 0 || isReserving)
         }
         .frame(maxHeight: .infinity)
         .onAppear {
