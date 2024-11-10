@@ -65,7 +65,7 @@ class DatabaseManager {
             if let error = error {
                 completion(nil, error)
             } else if let items = output?.items as? [ParkingSpotItem], let spotsDict = items.first?.spots {
-                let parkingSpots = spotsDict.map { ParkingSpot(spotId: $0.key, status: ParkingSpot.SpotStatus(rawValue: $0.value.capitalized) ?? .Available) }
+                let parkingSpots = spotsDict.map { ParkingSpot(spotId: $0.key, status: ParkingSpot.SpotStatus(rawValue: $0.value) ?? .available) }
                 completion(parkingSpots, nil)
             } else {
                 completion([], nil)

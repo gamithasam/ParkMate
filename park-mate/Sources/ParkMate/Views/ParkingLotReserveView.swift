@@ -12,14 +12,14 @@ struct ParkingSpot: Identifiable {
     var status: SpotStatus
     
     enum SpotStatus: String, CustomStringConvertible {
-        case Available, Occupied, Reserved, Selected
+        case available, occupied, reserved, selected
         
         var description: String {
             switch self {
-            case .Available: return "Available"
-            case .Occupied: return "Occupied"
-            case .Reserved: return "Reserved"
-            case .Selected: return "Selected"
+            case .available: return "Available"
+            case .occupied: return "Occupied"
+            case .reserved: return "Reserved"
+            case .selected: return "Selected"
             }
         }
     }
@@ -32,7 +32,7 @@ struct ParkingLotReserveView: View {
     @State private var parkingSpots: [ParkingSpot] = []
     @State private var isLoading = true
     var selectedCount: Int {
-        parkingSpots.filter { $0.status == .Selected }.count
+        parkingSpots.filter { $0.status == .selected }.count
     }
     
     let columns = Array(repeating: GridItem(.flexible(), spacing: 16), count: 3)
@@ -50,10 +50,10 @@ struct ParkingLotReserveView: View {
                 LazyVGrid(columns: columns, spacing: 8) {
                     ForEach($parkingSpots) { $spot in
                         switch (spot.status) {
-                        case .Available:
+                        case .available:
                             Button(action: {
                                 print("Tapped spot \(spot.spotId)")
-                                spot.status = .Selected
+                                spot.status = .selected
                             }) {
                                 VStack(spacing: 2) {
                                     Text(spot.spotId)
@@ -67,7 +67,7 @@ struct ParkingLotReserveView: View {
                             .buttonStyle(.bordered)
                             .tint(.blue)
                             .fixedSize(horizontal: false, vertical: true)
-                        case .Occupied:
+                        case .occupied:
                             Button(action: {
                                 print("Tapped spot \(spot.spotId)")
                             }) {
@@ -82,7 +82,7 @@ struct ParkingLotReserveView: View {
                             }
                             .buttonStyle(.bordered)
                             .fixedSize(horizontal: false, vertical: true)
-                        case .Reserved:
+                        case .reserved:
                             Button(action: {
                                 print("Tapped spot \(spot.spotId)")
                             }) {
@@ -98,10 +98,10 @@ struct ParkingLotReserveView: View {
                             .buttonStyle(.borderedProminent)
                             .tint(.red)
                             .fixedSize(horizontal: false, vertical: true)
-                        case .Selected:
+                        case .selected:
                             Button(action: {
                                 print("Tapped spot \(spot.spotId)")
-                                spot.status = .Available
+                                spot.status = .available
                             }) {
                                 VStack(spacing: 2) {
                                     Text(spot.spotId)
