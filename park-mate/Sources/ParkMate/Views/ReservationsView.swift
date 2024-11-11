@@ -50,7 +50,7 @@ struct ReservationsView: View {
                             let parkingLot = detail.parkingLot
                             let reservation = detail.reservation
                             
-                            NavigationLink(destination: ReservedSpotView()) {
+                            NavigationLink(destination: ReservedSpotView(parkingLot: parkingLot, reservation: reservation)) {
                                 HStack {
                                     if let picURL = parkingLot.pic, let url = URL(string: picURL) {
                                         AsyncImage(url: url) { phase in
