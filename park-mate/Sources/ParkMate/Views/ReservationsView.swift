@@ -43,11 +43,13 @@ struct ReservationsView: View {
                 Section {
                     if viewModel.errorMessage != nil {
                         Text("Error: \(viewModel.errorMessage!)")
-                    } else if viewModel.parkingLots.isEmpty {
+                    } else if viewModel.reservationDetails.isEmpty { // Changed from parkingLots
                         Text("No reservations found.")
                     } else {
-                        ForEach(viewModel.parkingLots.indices, id: \.self) { index in
-                            let parkingLot = viewModel.parkingLots[index]
+                        ForEach(viewModel.reservationDetails) { detail in // Use Identifiable
+                            let parkingLot = detail.parkingLot
+                            let reservation = detail.reservation
+                            
                             NavigationLink(destination: ReservedSpotView()) {
                                 HStack {
                                     if let picURL = parkingLot.pic, let url = URL(string: picURL) {
@@ -81,20 +83,14 @@ struct ReservationsView: View {
                                             .font(.headline)
                                         Text(parkingLot.city ?? "City")
                                             .font(.caption)
+
+                                        Spacer()
                                         
-//                                        Spacer()
-                                        
-//                                        // Time and Date
-//                                        HStack(alignment: .bottom) {
-//                                            Text(getFormattedTime(reservation.dateNTime))
-//                                                .font(.body)
-//                                            Text(getFormattedDate(reservation.dateNTime))
-//                                                .font(.caption)
-//                                                .foregroundColor(.secondary)
-//                                        }
+                                        ReservationDateTimeView(dateNTime: reservation.dateNTime ?? "")
                                     }
                                     .padding(.leading, 16)
                                 }
+                                .padding(9)
                             }
                         }
                     }
@@ -107,34 +103,6 @@ struct ReservationsView: View {
                 viewModel.fetchReservations(email: "gamitha@asia.com")
             }
             #endif
-        }
-    }
-    
-    private func getFormattedDate(from dateNTime: String) -> String? {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "dd MMM yyyy 'at' h:mm:ss a"
-        
-        let outputDateFormatter = DateFormatter()
-        outputDateFormatter.dateFormat = "MM/dd/yyyy"
-        
-        if let date = inputFormatter.date(from: dateNTime) {
-            return outputDateFormatter.string(from: date)
-        } else {
-            return nil
-        }
-    }
-
-    private func getFormattedTime(from dateNTime: String) -> String? {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "dd MMM yyyy 'at' h:mm:ss a"
-        
-        let outputTimeFormatter = DateFormatter()
-        outputTimeFormatter.dateFormat = "h:mm a"
-        
-        if let date = inputFormatter.date(from: dateNTime) {
-            return outputTimeFormatter.string(from: date)
-        } else {
-            return nil
         }
     }
 }

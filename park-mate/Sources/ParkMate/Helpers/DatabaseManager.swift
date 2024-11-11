@@ -142,7 +142,7 @@ class DatabaseManager {
         }
     }
     
-    func getUserReservationsWithParkingDetails(email: String, completion: @escaping ([ParkingLot]?, Error?) -> Void) {
+    func getUserReservationsWithParkingDetails(email: String, completion: @escaping ([ReservationDetail]?, Error?) -> Void) {
         fetchReservations(email: email) { reservations, error in
             if let error = error {
                 completion(nil, error)
@@ -154,7 +154,7 @@ class DatabaseManager {
                 return
             }
 
-            var parkingLots: [ParkingLot] = []
+            var reservationDetails: [ReservationDetail] = []
             let group = DispatchGroup()
 
             for reservation in reservations {
@@ -162,14 +162,15 @@ class DatabaseManager {
                 group.enter()
                 self.fetchParkingLot(parkingLotId: parkingLotId) { parkingLot, error in
                     if let parkingLot = parkingLot {
-                        parkingLots.append(parkingLot)
+                        let detail = ReservationDetail(reservation: reservation, parkingLot: parkingLot)
+                        reservationDetails.append(detail)
                     }
                     group.leave()
                 }
             }
 
             group.notify(queue: .main) {
-                completion(parkingLots, nil)
+                completion(reservationDetails, nil)
             }
         }
     }
