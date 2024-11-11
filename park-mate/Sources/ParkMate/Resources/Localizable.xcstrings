@@ -7,12 +7,6 @@
     "%lld" : {
 
     },
-    "3:00 PM" : {
-
-    },
-    "11/12/2024" : {
-
-    },
     "Add Vehicle" : {
 
     },
@@ -102,6 +96,9 @@
 
     },
     "Error" : {
+
+    },
+    "Error: %@" : {
 
     },
     "First Name" : {
@@ -202,12 +199,6 @@
         }
       }
     },
-    "Kandy" : {
-
-    },
-    "KCC Car Park" : {
-
-    },
     "Last Name" : {
 
     },
@@ -288,6 +279,9 @@
 
     },
     "Next" : {
+
+    },
+    "No reservations found." : {
 
     },
     "Occupied" : {

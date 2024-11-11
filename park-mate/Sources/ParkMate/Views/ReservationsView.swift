@@ -5,6 +5,9 @@
 import SwiftUI
 
 struct ReservationsView: View {
+    #if !SKIP
+    @StateObject private var viewModel = ReservationsViewModel()
+    #endif
     
     var body: some View {
         NavigationStack {
@@ -36,117 +39,102 @@ struct ReservationsView: View {
                 .listRowInsets(EdgeInsets())
                 #endif
                 
+                #if !SKIP
                 Section {
-                    NavigationLink(destination: ReservedSpotView()) {
-                        HStack {
-//                            if let _ = parkinglot!.pic, let url = URL(string: parkinglot!.pic!) {
-//                                AsyncImage(url: url) { phase in
-//                                    switch phase {
-//                                    case .empty:
-//                                        ProgressView()
-//                                            .frame(width: 80, height: 80)
-//                                            .cornerRadius(10)
-//                                    case .success(let image):
-//                                        image
-//                                            .resizable()
-//                                            .aspectRatio(contentMode: .fill)
-//                                            .frame(width: 80, height: 80)
-//                                            .cornerRadius(10)
-//                                            .clipped()
-//                                    case .failure:
-//                                        Image("Logo") // TODO: Show a placeholder if image loading fails
-//                                            .resizable()
-//                                            .aspectRatio(contentMode: .fill)
-//                                            .frame(width: 80, height: 80)
-//                                            .cornerRadius(10)
-//                                            .clipped()
-//                                    @unknown default:
-//                                        EmptyView()
-//                                            .frame(width: 80, height: 80)
-//                                            .cornerRadius(10)
-//                                    }
-//                                }
-//                            } else {
-                                FailedImageView() // Show a default placeholder if URL is nil
-//                            }
-                            VStack(alignment: .leading) {
-//                                Text(parkinglot!.name ?? "Car Park Name")
-                                Text("KCC Car Park")
-
-                                    .font(.headline)
-//                                Text(parkinglot!.city ?? "City")
-                                Text("Kandy")
-
-                                    .font(.caption)
-                                Spacer()
-                                HStack(alignment: .bottom) {
-                                    Text("3:00 PM")
-                                        .font(.body)
-                                    Text("11/12/2024")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
+                    if viewModel.errorMessage != nil {
+                        Text("Error: \(viewModel.errorMessage!)")
+                    } else if viewModel.parkingLots.isEmpty {
+                        Text("No reservations found.")
+                    } else {
+                        ForEach(viewModel.parkingLots.indices, id: \.self) { index in
+                            let parkingLot = viewModel.parkingLots[index]
+                            NavigationLink(destination: ReservedSpotView()) {
+                                HStack {
+                                    if let picURL = parkingLot.pic, let url = URL(string: picURL) {
+                                        AsyncImage(url: url) { phase in
+                                            switch phase {
+                                            case .empty:
+                                                ProgressView()
+                                                    .frame(width: 80, height: 80)
+                                                    .cornerRadius(10)
+                                            case .success(let image):
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: 80, height: 80)
+                                                    .cornerRadius(10)
+                                                    .clipped()
+                                            case .failure:
+                                                FailedImageView()
+                                            @unknown default:
+                                                EmptyView()
+                                                    .frame(width: 80, height: 80)
+                                                    .cornerRadius(10)
+                                            }
+                                        }
+                                    } else {
+                                        FailedImageView()
+                                    }
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text(parkingLot.name ?? "Car Park Name")
+                                            .font(.headline)
+                                        Text(parkingLot.city ?? "City")
+                                            .font(.caption)
+                                        
+//                                        Spacer()
+                                        
+//                                        // Time and Date
+//                                        HStack(alignment: .bottom) {
+//                                            Text(getFormattedTime(reservation.dateNTime))
+//                                                .font(.body)
+//                                            Text(getFormattedDate(reservation.dateNTime))
+//                                                .font(.caption)
+//                                                .foregroundColor(.secondary)
+//                                        }
+                                    }
+                                    .padding(.leading, 16)
                                 }
                             }
-                            .padding(.leading, 16)
                         }
-                        .padding(9)
-                    }
-                    
-                    
-                    NavigationLink(destination: ReservedSpotView()) {
-                        HStack {
-//                            if let _ = parkinglot!.pic, let url = URL(string: parkinglot!.pic!) {
-//                                AsyncImage(url: url) { phase in
-//                                    switch phase {
-//                                    case .empty:
-//                                        ProgressView()
-//                                            .frame(width: 80, height: 80)
-//                                            .cornerRadius(10)
-//                                    case .success(let image):
-//                                        image
-//                                            .resizable()
-//                                            .aspectRatio(contentMode: .fill)
-//                                            .frame(width: 80, height: 80)
-//                                            .cornerRadius(10)
-//                                            .clipped()
-//                                    case .failure:
-//                                        FailedImageView() // Show a placeholder if image loading fails
-//                                    @unknown default:
-//                                        EmptyView()
-//                                            .frame(width: 80, height: 80)
-//                                            .cornerRadius(10)
-//                                    }
-//                                }
-//                            } else {
-                                FailedImageView() // Show a default placeholder if URL is nil
-//                            }
-                            VStack(alignment: .leading) {
-//                                Text(parkinglot!.name ?? "Car Park Name")
-                                Text("KCC Car Park")
-
-                                    .font(.headline)
-//                                Text(parkinglot!.city ?? "City")
-                                Text("Kandy")
-
-                                    .font(.caption)
-                                Spacer()
-                                HStack(alignment: .bottom) {
-                                    Text("3:00 PM")
-                                        .font(.body)
-                                    Text("11/12/2024")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                            .padding(.leading, 16)
-                        }
-                        .padding(9)
-                        .background(Color.white)
-                        .cornerRadius(16)
                     }
                 }
+                #endif
             }
             .navigationTitle("Reservations")
+            #if !SKIP
+            .onAppear {
+                viewModel.fetchReservations(email: "gamitha@asia.com")
+            }
+            #endif
+        }
+    }
+    
+    private func getFormattedDate(from dateNTime: String) -> String? {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "dd MMM yyyy 'at' h:mm:ss a"
+        
+        let outputDateFormatter = DateFormatter()
+        outputDateFormatter.dateFormat = "MM/dd/yyyy"
+        
+        if let date = inputFormatter.date(from: dateNTime) {
+            return outputDateFormatter.string(from: date)
+        } else {
+            return nil
+        }
+    }
+
+    private func getFormattedTime(from dateNTime: String) -> String? {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "dd MMM yyyy 'at' h:mm:ss a"
+        
+        let outputTimeFormatter = DateFormatter()
+        outputTimeFormatter.dateFormat = "h:mm a"
+        
+        if let date = inputFormatter.date(from: dateNTime) {
+            return outputTimeFormatter.string(from: date)
+        } else {
+            return nil
         }
     }
 }

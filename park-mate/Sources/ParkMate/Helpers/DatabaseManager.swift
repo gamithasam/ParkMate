@@ -109,5 +109,69 @@ class DatabaseManager {
             }
         }
     }
+    
+    func fetchReservations(email: String, completion: @escaping ([Reservation]?, Error?) -> Void) {
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+
+        let queryExpression = AWSDynamoDBQueryExpression()
+        queryExpression.keyConditionExpression = "email = :email"
+        queryExpression.expressionAttributeValues = [":email": email]
+
+        dynamoDBObjectMapper.query(Reservation.self, expression: queryExpression) { (output, error) in
+            if let error = error {
+                completion(nil, error)
+            } else if let reservations = output?.items as? [Reservation] {
+                completion(reservations, nil)
+            } else {
+                completion([], nil)
+            }
+        }
+    }
+    
+    func fetchParkingLot(parkingLotId: NSNumber, completion: @escaping (ParkingLot?, Error?) -> Void) {
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+
+        dynamoDBObjectMapper.load(ParkingLot.self, hashKey: parkingLotId, rangeKey: nil) { (item, error) in
+            if let error = error {
+                completion(nil, error)
+            } else if let parkingLot = item as? ParkingLot {
+                completion(parkingLot, nil)
+            } else {
+                completion(nil, nil)
+            }
+        }
+    }
+    
+    func getUserReservationsWithParkingDetails(email: String, completion: @escaping ([ParkingLot]?, Error?) -> Void) {
+        fetchReservations(email: email) { reservations, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+
+            guard let reservations = reservations, !reservations.isEmpty else {
+                completion([], nil)
+                return
+            }
+
+            var parkingLots: [ParkingLot] = []
+            let group = DispatchGroup()
+
+            for reservation in reservations {
+                guard let parkingLotId = reservation.parkingLotId else { continue }
+                group.enter()
+                self.fetchParkingLot(parkingLotId: parkingLotId) { parkingLot, error in
+                    if let parkingLot = parkingLot {
+                        parkingLots.append(parkingLot)
+                    }
+                    group.leave()
+                }
+            }
+
+            group.notify(queue: .main) {
+                completion(parkingLots, nil)
+            }
+        }
+    }
 }
 #endif
