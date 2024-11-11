@@ -216,6 +216,7 @@ struct ParkingLotReserveView: View {
             reservation!.spotId = spot.spotId
             reservation!.dateNTime = DateFormatter.localizedString(from: self.selectedDateNTime, dateStyle: .medium, timeStyle: .medium)
             reservation!.vehicle = self.vehicle
+            reservation!.hours = NSNumber(value: self.hours)
             
             dynamoDBObjectMapper.save(reservation!) { error in
                 if let error = error {
