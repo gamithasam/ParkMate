@@ -51,6 +51,9 @@
     "Confirm Password" : {
 
     },
+    "Confirmation" : {
+
+    },
     "Create Account" : {
 
     },
@@ -288,6 +291,9 @@
 
     },
     "Next" : {
+
+    },
+    "No" : {
 
     },
     "No reservations found." : {
@@ -547,6 +553,9 @@
 
     },
     "Where Are You Planning to Park?" : {
+
+    },
+    "Yes" : {
 
     },
     "You must be at least 17 years old to use ParkMate" : {

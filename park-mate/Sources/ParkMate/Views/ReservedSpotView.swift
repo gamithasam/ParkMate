@@ -9,6 +9,7 @@ struct ReservedSpotView: View {
     let parkingLot: ParkingLot
     let reservation: Reservation
     @State var barrierOpen: Bool = false
+    @State var alertItem: AlertItem?
     
     var body: some View {
         List {
@@ -107,11 +108,11 @@ struct ReservedSpotView: View {
             Section {
                 Button {
                     if !barrierOpen {
-                        print("Barrier opened")
+                        alertItem = AlertItem(message: "Are you sure you want to open the barrier?")
                     } else {
                         print("Barrier closed")
+                        barrierOpen.toggle()
                     }
-                    barrierOpen.toggle()
                 } label: {
                     HStack {
                         Spacer()
@@ -127,6 +128,19 @@ struct ReservedSpotView: View {
             }
         }
         .navigationTitle(parkingLot.name ?? "Parking Lot")
+        .alert(item: $alertItem) { alertItem in
+            Alert(
+                title: Text("Confirmation"),
+                message: Text(alertItem.message),
+                primaryButton: .default(Text("Yes")) {
+                    print("Barrier opened")
+                    barrierOpen.toggle()
+                },
+                secondaryButton: .cancel(Text("No")) {
+                    print("Barrier remains closed")
+                }
+            )
+        }
     }
     
     // Function to parse the date string back into a Date object
