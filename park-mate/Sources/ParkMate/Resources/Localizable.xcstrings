@@ -4,6 +4,9 @@
     "(Rs.800)" : {
 
     },
+    "%@ hours" : {
+
+    },
     "%lld" : {
 
     },
@@ -98,9 +101,6 @@
     "Date and Time" : {
 
     },
-    "Date Unknown" : {
-
-    },
     "Don't have an account? Sign Up" : {
 
     },
@@ -178,6 +178,9 @@
           }
         }
       }
+    },
+    "Hours" : {
+
     },
     "Hours:" : {
 
@@ -508,7 +511,7 @@
     "Time" : {
 
     },
-    "Time Unknown" : {
+    "Unknown" : {
 
     },
     "Vehicle" : {

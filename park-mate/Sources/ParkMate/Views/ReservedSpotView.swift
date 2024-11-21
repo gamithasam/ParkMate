@@ -63,7 +63,7 @@ struct ReservedSpotView: View {
                         Text(formatDate(dateObject))
                             .bold()
                     } else {
-                        Text("Date Unknown")
+                        Text("Unknown")
                             .bold()
                     }
                 }
@@ -74,9 +74,15 @@ struct ReservedSpotView: View {
                         Text(formatTime(dateObject))
                             .bold()
                     } else {
-                        Text("Time Unknown")
+                        Text("Unknown")
                             .bold()
                     }
+                }
+                HStack {
+                    Text("Hours")
+                    Spacer()
+                    Text("\(reservation.hours?.stringValue ?? "Unknown") hour(s)")
+                        .bold()
                 }
             }
             
