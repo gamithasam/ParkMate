@@ -5,11 +5,6 @@
 #if !SKIP
 import SwiftUI
 
-struct AlertItem: Identifiable {
-    let id = UUID()
-    let message: String
-}
-
 struct OnboardingView: View {
     @State private var currentTab = 0
     @State private var email: String = ""

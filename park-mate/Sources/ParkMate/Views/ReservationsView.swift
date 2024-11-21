@@ -7,6 +7,7 @@ import SwiftUI
 struct ReservationsView: View {
     #if !SKIP
     @StateObject private var viewModel = ReservationsViewModel()
+    @State private var alertItem: AlertItem?
     #endif
     
     var body: some View {
@@ -102,7 +103,20 @@ struct ReservationsView: View {
             .navigationTitle("Reservations")
             #if !SKIP
             .onAppear {
-                viewModel.fetchReservations(email: "gamitha@asia.com")
+                // Get the user's email from UserDefaults
+                guard let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
+                    print("Email not found in UserDefaults")
+                    self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+                    return
+                }
+                viewModel.fetchReservations(email: userEmail)
+            }
+            .alert(item: $alertItem) { alert in
+                Alert(
+                    title: Text("Error"),
+                    message: Text(alert.message),
+                    dismissButton: .default(Text("OK"))
+                )
             }
             #endif
         }

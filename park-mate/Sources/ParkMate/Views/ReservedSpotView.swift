@@ -58,14 +58,24 @@ struct ReservedSpotView: View {
                 HStack {
                     Text("Date")
                     Spacer()
-                    Text(reservation.spotId!) // TODO: Add date
-                        .bold()
+                    if let dateObject = parseDate(from: reservation.dateNTime!) {
+                        Text(formatDate(dateObject))
+                            .bold()
+                    } else {
+                        Text("Date Unknown")
+                            .bold()
+                    }
                 }
                 HStack {
                     Text("Time")
                     Spacer()
-                    Text(reservation.spotId!) // TODO: Add Time
-                        .bold()
+                    if let dateObject = parseDate(from: reservation.dateNTime!) {
+                        Text(formatTime(dateObject))
+                            .bold()
+                    } else {
+                        Text("Time Unknown")
+                            .bold()
+                    }
                 }
             }
             
@@ -117,6 +127,28 @@ struct ReservedSpotView: View {
             }
         }
         .navigationTitle(parkingLot.name ?? "Parking Lot")
+    }
+    
+    // Function to parse the date string back into a Date object
+    func parseDate(from dateString: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        return formatter.date(from: dateString)
+    }
+
+    // Function to format a Date object into a custom date string
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d yyyy" // Desired format: "Nov 12 2024"
+        return formatter.string(from: date)
+    }
+
+    // Function to format a Date object into a custom time string
+    func formatTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a" // Desired format: "3:00 PM"
+        return formatter.string(from: date)
     }
 }
 #endif
