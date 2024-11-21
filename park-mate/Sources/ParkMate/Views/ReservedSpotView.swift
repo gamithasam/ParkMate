@@ -124,6 +124,7 @@ struct ReservedSpotView: View {
                         Spacer()
                         if !barrierOpen {
                             Text("Open Barrier")
+                                .foregroundColor(.red)
                         } else {
                             Text("Close Barrier")
                         }
