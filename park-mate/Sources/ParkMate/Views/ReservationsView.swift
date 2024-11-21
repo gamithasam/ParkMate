@@ -68,6 +68,7 @@ struct ReservationsView: View {
                                                     .clipped()
                                             case .failure:
                                                 FailedImageView()
+                                                    .frame(width: 80, height: 80)
                                             @unknown default:
                                                 EmptyView()
                                                     .frame(width: 80, height: 80)
@@ -76,6 +77,7 @@ struct ReservationsView: View {
                                         }
                                     } else {
                                         FailedImageView()
+                                            .frame(width: 80, height: 80)
                                     }
                                     
                                     VStack(alignment: .leading) {

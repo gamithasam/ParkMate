@@ -25,6 +25,7 @@ struct CardView: View {
                             .clipped()
                     case .failure:
                         FailedImageView() // Show a placeholder if image loading fails
+                            .frame(width: 80, height: 80)
                     @unknown default:
                         EmptyView()
                             .frame(width: 80, height: 80)
@@ -33,6 +34,7 @@ struct CardView: View {
                 }
             } else {
                 FailedImageView() // Show a default placeholder if URL is nil
+                    .frame(width: 80, height: 80)
             }
             VStack(alignment: .leading) {
                 Text(parkinglot.name ?? "Car Park Name")

@@ -11,7 +11,6 @@ struct FailedImageView: View {
                 .foregroundColor(.gray)
                 .font(.system(size: 32))
         }
-        .frame(width: 80, height: 80)
         #if !SKIP
         .background(Color(UIColor.systemGray6))
         #endif

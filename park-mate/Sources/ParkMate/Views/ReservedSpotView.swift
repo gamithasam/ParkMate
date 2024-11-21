@@ -19,6 +19,7 @@ struct ReservedSpotView: View {
                         case .empty:
                             ProgressView()
                                 .frame(height: 185)
+                                .frame(maxWidth: .infinity)
                                 .cornerRadius(10)
                         case .success(let image):
                             image
@@ -28,7 +29,9 @@ struct ReservedSpotView: View {
                                 .cornerRadius(10)
                                 .clipped()
                         case .failure:
-                            FailedImageView() // TODO: This is too small
+                            FailedImageView()
+                                .frame(height: 185)
+                                .frame(maxWidth: .infinity)
                         @unknown default:
                             EmptyView()
                                 .frame(height: 80)
@@ -36,7 +39,9 @@ struct ReservedSpotView: View {
                         }
                     }
                 } else {
-                    FailedImageView() // TODO: This is too small
+                    FailedImageView()
+                        .frame(height: 185)
+                        .frame(maxWidth: .infinity)
                 }
             }
             #if !SKIP
