@@ -26,13 +26,12 @@ struct ParkingSpot: Identifiable {
     }
 }
 
-// Sample data
-
 struct ParkingLotReserveView: View {
     let parkingLotId: Int
     let selectedDateNTime: Date
     let hours: Int
     let vehicle: String
+    let price: Double
     
     @State private var parkingSpots: [ParkingSpot] = []
     @State private var isLoading = true
@@ -141,7 +140,7 @@ struct ParkingLotReserveView: View {
                 } else {
                     VStack(alignment: .center) {
                         Text("Reserve")
-                        Text("(Rs.800)")
+                        Text(String(format: "Rs. %.2f", price))
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -217,6 +216,7 @@ struct ParkingLotReserveView: View {
             reservation!.dateNTime = DateFormatter.localizedString(from: self.selectedDateNTime, dateStyle: .medium, timeStyle: .medium)
             reservation!.vehicle = self.vehicle
             reservation!.hours = NSNumber(value: self.hours)
+            reservation!.price = NSNumber(value: self.price)
             
             dynamoDBObjectMapper.save(reservation!) { error in
                 if let error = error {

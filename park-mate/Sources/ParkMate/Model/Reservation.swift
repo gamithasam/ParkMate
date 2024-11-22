@@ -13,6 +13,7 @@ class Reservation: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     @objc var dateNTime: String?
     @objc var vehicle: String?
     @objc var hours: NSNumber?
+    @objc var price: NSNumber?
 
     static func dynamoDBTableName() -> String {
         return "Reservations"

@@ -102,7 +102,7 @@ struct ReservedSpotView: View {
                         Text("Price")
                             .foregroundColor(.blue)
                             .bold()
-                        Text("Rs. 888")
+                        Text(String(format: "Rs. %.2f", reservation.price?.doubleValue ?? 888.88))
                             .font(.title2)
                             .bold()
                     }
@@ -147,6 +147,9 @@ struct ReservedSpotView: View {
                     print("Barrier remains closed")
                 }
             )
+        }
+        .onAppear {
+            print(reservation.price!)
         }
     }
     

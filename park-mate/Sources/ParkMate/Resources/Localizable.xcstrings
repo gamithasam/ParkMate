@@ -1,10 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "(Rs.800)" : {
-
-    },
-    "%@ hours" : {
+    "%@ hour(s)" : {
 
     },
     "%lld" : {
@@ -392,9 +389,6 @@
 
     },
     "Reserved" : {
-
-    },
-    "Rs. 888" : {
 
     },
     "Rs.888" : {

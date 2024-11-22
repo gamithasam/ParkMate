@@ -43,7 +43,7 @@ struct CardView: View {
                     .font(.caption)
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text("Rs."+String(parkinglot.price?.intValue ?? 888))
+                    Text("Rs." + String(parkinglot.price?["car"]?.intValue ?? 888))
                         .font(.body)
                     Text("per hour")
                         .font(.caption)

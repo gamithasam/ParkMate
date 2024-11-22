@@ -53,7 +53,7 @@ struct ParkingLotView: View {
                 Section() {
                     HStack {
                         Spacer()
-                        Text("Rs."+String(parkinglot.price?.intValue ?? 888))
+                        Text(String(format: "Rs. %.2f", parkinglot.price?[vehicleTypes[selectedVehicle].lowercased()]?.doubleValue ?? 888.88))
                             .font(.body)
                             .bold()
                         Spacer()
@@ -61,23 +61,12 @@ struct ParkingLotView: View {
                 }
                 
                 Section() {
-//                    Button(action: {
-//                        // Your action here
-//                        print("Next")
-//                    }) {
-//                        HStack {
-//                            Spacer()
-//                            NavigationLink(destination: ParkingLotReserveView()) {
-//                                Text("Next")
-//                            }
-//                            Spacer()
-//                        }
-//                    }
                     NavigationLink(destination: ParkingLotReserveView(
                         parkingLotId: parkinglot.parkingLotId!.intValue,
                         selectedDateNTime: self.selectedDateNTime,
                         hours: self.hours,
                         vehicle: vehicleTypes[selectedVehicle],
+                        price: parkinglot.price?[vehicleTypes[selectedVehicle].lowercased()]?.doubleValue ?? 888.88,
                         selectedLot: $selectedLot
                     )) {
                         Spacer()
