@@ -140,7 +140,7 @@ struct ParkingLotReserveView: View {
                 } else {
                     VStack(alignment: .center) {
                         Text("Reserve")
-                        Text(String(format: "Rs. %.2f", price))
+                        Text(String(format: "(Rs. %.2f)", price))
                     }
                     .frame(maxWidth: .infinity)
                 }

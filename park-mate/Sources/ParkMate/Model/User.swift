@@ -13,6 +13,7 @@ class User: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     @objc var password: String?
     @objc var birthday: String?
     @objc var salt: String?
+    @objc var payables: NSNumber?
 
     static func dynamoDBTableName() -> String {
         return "Users"

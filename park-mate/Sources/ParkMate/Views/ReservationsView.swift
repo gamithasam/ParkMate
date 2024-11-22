@@ -3,41 +3,47 @@
 // as published by the Free Software Foundation https://fsf.org
 
 import SwiftUI
+#if !SKIP
+import AWSDynamoDB
+#endif
 
 struct ReservationsView: View {
     #if !SKIP
     @StateObject private var viewModel = ReservationsViewModel()
     @State private var alertItem: AlertItem?
+    @State private var payables: Double = 0.0
     #endif
     
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    VStack(spacing: 25) {
-                        HStack {
-                            Text("Payables")
-                                .font(.title3)
-                                .bold()
-                            Spacer()
-                            Text("Rs.888")
-                                .font(.title3)
-                        }
-                        Button(action: {
-                            // TODO: Payment
-                            print("Payed")
-                        }) {
-                            Text("Pay")
-                                .frame(maxWidth: .infinity)
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .frame(maxWidth: .infinity)
-                    }
-                    .padding(.vertical, 25)
-                    .padding(.horizontal, 20)
-                }
                 #if !SKIP
-                .listRowInsets(EdgeInsets())
+                if payables != 0.0 {
+                    Section {
+                        VStack(spacing: 25) {
+                            HStack {
+                                Text("Payables")
+                                    .font(.title3)
+                                    .bold()
+                                Spacer()
+                                Text(String(format: "Rs. %.2f", payables))
+                                    .font(.title3)
+                            }
+                            Button(action: {
+                                // TODO: Payment
+                                print("Payed")
+                            }) {
+                                Text("Pay")
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .frame(maxWidth: .infinity)
+                        }
+                        .padding(.vertical, 25)
+                        .padding(.horizontal, 20)
+                    }
+                    .listRowInsets(EdgeInsets())
+                }
                 #endif
                 
                 #if !SKIP
@@ -110,6 +116,7 @@ struct ReservationsView: View {
                     return
                 }
                 viewModel.fetchReservations(email: userEmail)
+                fetchUserDetails(email: userEmail)
             }
             .alert(item: $alertItem) { alert in
                 Alert(
@@ -121,4 +128,35 @@ struct ReservationsView: View {
             #endif
         }
     }
+    
+    #if !SKIP
+    func fetchUserDetails(email: String) {
+        // Configure AWS DynamoDB
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+        
+        // Create the user key
+        let userKey = User()
+        userKey!.email = email
+        
+        // Fetch the user data
+        dynamoDBObjectMapper.load(User.self, hashKey: email, rangeKey: nil).continueWith { (task: AWSTask<AnyObject>!) -> Any? in
+            if let error = task.error {
+                print("Error fetching user details: \(error.localizedDescription)")
+                self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+            } else if let user = task.result as? User {
+                DispatchQueue.main.async {
+                    if let payables = user.payables {
+                        self.payables = payables.doubleValue
+                    } else {
+                        // Handle the nil case here
+                        print("Payables is nil")
+                        self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+                        self.payables = 0.00
+                    }
+                }
+            }
+            return nil
+        }
+    }
+    #endif
 }
