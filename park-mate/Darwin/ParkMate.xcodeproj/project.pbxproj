@@ -8,11 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0D669B642CD714E300F11F07 /* AWSCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0D669B632CD714E300F11F07 /* AWSCore */; };
-		0DD1F5932CD6473C0045EC1D /* AWSAppleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F5922CD6473C0045EC1D /* AWSAppleSignIn */; };
+		0DBE3D1C2CF07E6300DCF4FF /* AWSIoT in Frameworks */ = {isa = PBXBuildFile; productRef = 0DBE3D1B2CF07E6300DCF4FF /* AWSIoT */; };
 		0DD1F5952CD6473C0045EC1D /* AWSAuthCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F5942CD6473C0045EC1D /* AWSAuthCore */; };
-		0DD1F5972CD6473C0045EC1D /* AWSAuthUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F5962CD6473C0045EC1D /* AWSAuthUI */; };
 		0DD1F5992CD711F30045EC1D /* AWSDynamoDB in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F5982CD711F30045EC1D /* AWSDynamoDB */; };
-		0DD1F59B2CD711F30045EC1D /* AWSGoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0DD1F59A2CD711F30045EC1D /* AWSGoogleSignIn */; };
 		49231BAC2AC5BCEF00F98ADF /* ParkMateApp in Frameworks */ = {isa = PBXBuildFile; productRef = 49231BAB2AC5BCEF00F98ADF /* ParkMateApp */; };
 		49231BAD2AC5BCEF00F98ADF /* ParkMateApp in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 49231BAB2AC5BCEF00F98ADF /* ParkMateApp */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		496BDBEE2B8A7E9C00C09264 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 496BDBED2B8A7E9C00C09264 /* Localizable.xcstrings */; };
@@ -53,19 +51,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DBE3D1C2CF07E6300DCF4FF /* AWSIoT in Frameworks */,
 				0D669B642CD714E300F11F07 /* AWSCore in Frameworks */,
-				0DD1F5972CD6473C0045EC1D /* AWSAuthUI in Frameworks */,
 				49231BAC2AC5BCEF00F98ADF /* ParkMateApp in Frameworks */,
 				0DD1F5992CD711F30045EC1D /* AWSDynamoDB in Frameworks */,
-				0DD1F59B2CD711F30045EC1D /* AWSGoogleSignIn in Frameworks */,
 				0DD1F5952CD6473C0045EC1D /* AWSAuthCore in Frameworks */,
-				0DD1F5932CD6473C0045EC1D /* AWSAppleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DBE3D1A2CF07E6300DCF4FF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		496BDBEC2B89A47800C09264 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +95,7 @@
 				493609562A6B7EAE00C401E2 /* ParkMate */,
 				49F90C2A2A52156200F06D93 /* App */,
 				49AB54462B066A7E007B79B2 /* SkipStone */,
+				0DBE3D1A2CF07E6300DCF4FF /* Frameworks */,
 				496BDBEC2B89A47800C09264 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -127,12 +131,10 @@
 			name = ParkMate;
 			packageProductDependencies = (
 				49231BAB2AC5BCEF00F98ADF /* ParkMateApp */,
-				0DD1F5922CD6473C0045EC1D /* AWSAppleSignIn */,
 				0DD1F5942CD6473C0045EC1D /* AWSAuthCore */,
-				0DD1F5962CD6473C0045EC1D /* AWSAuthUI */,
 				0DD1F5982CD711F30045EC1D /* AWSDynamoDB */,
-				0DD1F59A2CD711F30045EC1D /* AWSGoogleSignIn */,
 				0D669B632CD714E300F11F07 /* AWSCore */,
+				0DBE3D1B2CF07E6300DCF4FF /* AWSIoT */,
 			);
 			productName = App;
 			productReference = 496BDBEB2B89A47800C09264 /* ParkMate.app */;
@@ -374,30 +376,20 @@
 			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
 			productName = AWSCore;
 		};
-		0DD1F5922CD6473C0045EC1D /* AWSAppleSignIn */ = {
+		0DBE3D1B2CF07E6300DCF4FF /* AWSIoT */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
-			productName = AWSAppleSignIn;
+			productName = AWSIoT;
 		};
 		0DD1F5942CD6473C0045EC1D /* AWSAuthCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
 			productName = AWSAuthCore;
 		};
-		0DD1F5962CD6473C0045EC1D /* AWSAuthUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
-			productName = AWSAuthUI;
-		};
 		0DD1F5982CD711F30045EC1D /* AWSDynamoDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
 			productName = AWSDynamoDB;
-		};
-		0DD1F59A2CD711F30045EC1D /* AWSGoogleSignIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0DD1F5912CD6473C0045EC1D /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
-			productName = AWSGoogleSignIn;
 		};
 		49231BAB2AC5BCEF00F98ADF /* ParkMateApp */ = {
 			isa = XCSwiftPackageProductDependency;
