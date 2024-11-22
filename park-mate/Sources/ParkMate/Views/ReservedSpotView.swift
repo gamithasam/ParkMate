@@ -12,6 +12,9 @@ struct ReservedSpotView: View {
     @State var barrierOpen: Bool = false
     @State var alertItem: AlertItem?
     
+    // Retrieve the IoT Data Manager
+    let iotDataManager = AWSIoTDataManager(forKey: "MyAWSIoTDataManager")
+    
     var body: some View {
         List {
             Section {
@@ -178,34 +181,14 @@ struct ReservedSpotView: View {
     }
     
     func publishMessage() {
-        guard let existingServiceConfiguration = AWSServiceManager.default().defaultServiceConfiguration else {
-            print("AWS Service Configuration not found.")
+        guard iotDataManager.getConnectionStatus() == .connected else {
+            print("Not connected to AWS IoT Core")
             return
         }
         
-        let iotDataManagerKey = "MyAWSIoTDataManager"
-
-        // Set up your IoT endpoint
-        let iotEndPoint = AWSEndpoint(urlString: "a2fcyk7jrcl2w-ats.iot.eu-north-1.amazonaws.com")
-
-        // Create a new service configuration for IoT
-        let iotDataConfiguration = AWSServiceConfiguration(
-            region: existingServiceConfiguration.regionType,
-            endpoint: iotEndPoint,
-            credentialsProvider: existingServiceConfiguration.credentialsProvider
-        )
-
-        // Register the IoT Data Manager with the new configuration
-        AWSIoTDataManager.register(
-            with: iotDataConfiguration!,
-            forKey: iotDataManagerKey
-        )
-        
-        let iotDataManager = AWSIoTDataManager(forKey: iotDataManagerKey)
-        
         let message = "Hello from iOS!"
         let topic = "lots/spots"
-
+        
         iotDataManager.publishString(
             message,
             onTopic: topic,

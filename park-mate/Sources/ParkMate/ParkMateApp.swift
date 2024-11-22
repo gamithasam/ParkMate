@@ -7,6 +7,7 @@ import OSLog
 import SwiftUI
 #if !SKIP
 import AWSCore
+import AWSIoT
 #endif
 
 let logger: Logger = Logger(subsystem: "com.skip.parkmate", category: "ParkMate")
@@ -27,6 +28,49 @@ public struct RootView : View {
         let credentialsProvider = AWSStaticCredentialsProvider(accessKey: "AKIA5G2VG4SUUQKNSDO2", secretKey: "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")
         let configuration = AWSServiceConfiguration(region: .EUNorth1, credentialsProvider: credentialsProvider)
         AWSServiceManager.default().defaultServiceConfiguration = configuration
+        
+        let iotDataManagerKey = "MyAWSIoTDataManager"
+                
+        // Corrected IoT endpoint with protocol
+        let iotEndPoint = AWSEndpoint(urlString: "wss://a2fcyk7jrcl2w-ats.iot.eu-north-1.amazonaws.com")
+        
+        // Create a new service configuration for IoT
+        let iotDataConfiguration = AWSServiceConfiguration(
+            region: configuration!.regionType,
+            endpoint: iotEndPoint,
+            credentialsProvider: configuration!.credentialsProvider
+        )
+        
+        // Register the IoT Data Manager with the new configuration
+        AWSIoTDataManager.register(
+            with: iotDataConfiguration!,
+            forKey: iotDataManagerKey
+        )
+        
+        let iotDataManager = AWSIoTDataManager(forKey: iotDataManagerKey)
+        
+        // Connect once during app initialization
+        iotDataManager.connectUsingWebSocket(
+            withClientId: UUID().uuidString,
+            cleanSession: true
+        ) { status in
+            switch status {
+            case .connected:
+                print("Connected to AWS IoT")
+            case .connecting:
+                print("Connecting to AWS IoT")
+            case .disconnected:
+                print("Disconnected from AWS IoT")
+            case .connectionError:
+                print("Connection Error with AWS IoT")
+            case .connectionRefused:
+                print("Connection Refused by AWS IoT")
+//            case .connectionIdle:
+//                print("Connection Idle with AWS IoT")
+            default:
+                print("Unknown connection status")
+            }
+        }
         #endif
     }
 
