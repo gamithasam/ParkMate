@@ -130,7 +130,7 @@ struct ReservationsView: View {
                     title: "Payables",
                     price: self.payables,
                     onPaymentCompleted: {
-    //                    handlePayment()
+                        updatePayables()
                         print("Payed")
                     }
                 )
@@ -167,6 +167,49 @@ struct ReservationsView: View {
                 }
             }
             return nil
+        }
+    }
+    
+    func updatePayables() {
+        // Get the user's email from UserDefaults
+        guard let email = UserDefaults.standard.string(forKey: "userEmail") else {
+            print("Email not found in UserDefaults")
+            self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+            return
+        }
+        
+        // Fetch user from DynamoDB based on email
+        DatabaseManager.shared.fetchUser(email: email) { user, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    print("Error fetching user: \(error.localizedDescription)")
+                    self.alertItem = AlertItem(message: "An error occured. Please try again later.")
+                }
+                return
+            }
+
+            guard let user = user else {
+                DispatchQueue.main.async {
+                    self.alertItem = AlertItem(message: "An error occured. Please try again later.")
+                }
+                return
+            }
+            
+            user.payables = 0.00
+            self.payables = 0.00
+            
+            // Save the user data
+            let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+            dynamoDBObjectMapper.save(user, completionHandler: { (error) in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        print("Error updating payables: \(error.localizedDescription)")
+                        self.alertItem = AlertItem(message: "An error occurred. Please try again.")
+                    } else {
+                        print("Successfully updated payables")
+                    }
+                }
+            })
         }
     }
     #endif
