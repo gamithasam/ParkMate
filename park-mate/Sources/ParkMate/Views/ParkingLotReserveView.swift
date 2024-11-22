@@ -37,6 +37,7 @@ struct ParkingLotReserveView: View {
     @State private var isLoading = true
     @State private var isReserving = false
     @State private var alertItem: AlertItem?
+    @State private var showMockPaymentSheet = false
     var selectedCount: Int {
         parkingSpots.filter { $0.status == .selected }.count
     }
@@ -133,7 +134,7 @@ struct ParkingLotReserveView: View {
             ParkingSpotLegendView()
             
             Button(action: {
-                reserveSpot()
+                showMockPaymentSheet = true
             }) {
                 if isReserving {
                     ProgressView()
@@ -160,6 +161,17 @@ struct ParkingLotReserveView: View {
                 message: Text(alert.message),
                 dismissButton: .default(Text("OK"))
             )
+        }
+        .sheet(isPresented: $showMockPaymentSheet) {
+            MockPaymentSheet(
+                title: "Reserve",
+                price: self.price,
+                onPaymentCompleted: {
+                    reserveSpot()
+                    print("Payed")
+                }
+            )
+            .presentationDetents([.medium])
         }
     }
     

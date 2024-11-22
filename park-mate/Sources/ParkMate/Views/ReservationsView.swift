@@ -12,6 +12,7 @@ struct ReservationsView: View {
     @StateObject private var viewModel = ReservationsViewModel()
     @State private var alertItem: AlertItem?
     @State private var payables: Double = 0.0
+    @State private var showMockPaymentSheet = false
     #endif
     
     var body: some View {
@@ -30,8 +31,7 @@ struct ReservationsView: View {
                                     .font(.title3)
                             }
                             Button(action: {
-                                // TODO: Payment
-                                print("Payed")
+                                showMockPaymentSheet = true
                             }) {
                                 Text("Pay")
                                     .frame(maxWidth: .infinity)
@@ -124,6 +124,17 @@ struct ReservationsView: View {
                     message: Text(alert.message),
                     dismissButton: .default(Text("OK"))
                 )
+            }
+            .sheet(isPresented: $showMockPaymentSheet) {
+                MockPaymentSheet(
+                    title: "Payables",
+                    price: self.payables,
+                    onPaymentCompleted: {
+    //                    handlePayment()
+                        print("Payed")
+                    }
+                )
+                .presentationDetents([.medium])
             }
             #endif
         }
