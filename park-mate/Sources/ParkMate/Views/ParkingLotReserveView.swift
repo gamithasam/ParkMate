@@ -5,6 +5,7 @@
 #if !SKIP
 import SwiftUI
 import AWSDynamoDB
+import AWSIoT
 
 // Model for a parking spot
 struct ParkingSpot: Identifiable {
@@ -45,6 +46,9 @@ struct ParkingLotReserveView: View {
     @Binding var selectedLot: ParkingLot?
     
     let columns = Array(repeating: GridItem(.flexible(), spacing: 16), count: 3)
+    
+    // Initialize AWSIoTManager
+    let awsIoTManager = IoTManager()
     
     var body: some View {
         VStack {
@@ -211,6 +215,15 @@ struct ParkingLotReserveView: View {
                     selectedLot = nil
                 }
             }
+        }
+        
+        // Close the barrier(s)
+        for spotId in spotIdsToReserve {
+            awsIoTManager.publishMessage(
+                parkingLotId: NSNumber(value: parkingLotId),
+                spotId: spotId,
+                barrierOpen: false
+            )
         }
     }
     
