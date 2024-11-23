@@ -121,6 +121,7 @@ struct ReservedSpotView: View {
                         alertItem = AlertItem(message: "Are you sure you want to open the barrier?")
                     } else {
                         print("Barrier closed")
+                        publishMessage()
                         barrierOpen.toggle()
                     }
                 } label: {
@@ -186,8 +187,14 @@ struct ReservedSpotView: View {
             return
         }
         
-        let message = "Hello from iOS!"
-        let topic = "lots/spots"
+        let message = """
+            {
+              "parkingLotId": \(reservation.parkingLotId!),
+              "spotId": "\(reservation.spotId!)",
+              "barrier": \(barrierOpen ? 0 : 1)
+            }
+            """
+        let topic = "lots/barriers"
         
         iotDataManager.publishString(
             message,
