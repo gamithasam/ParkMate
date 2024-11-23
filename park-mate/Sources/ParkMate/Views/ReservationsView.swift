@@ -161,7 +161,6 @@ struct ReservationsView: View {
                     } else {
                         // Handle the nil case here
                         print("Payables is nil")
-                        self.alertItem = AlertItem(message: "An error occurred. Please try again.")
                         self.payables = 0.00
                     }
                 }
