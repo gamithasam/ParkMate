@@ -12,8 +12,8 @@ struct ReservedSpotView: View {
     @State var barrierOpen: Bool = false
     @State var alertItem: AlertItem?
     
-    // Retrieve the IoT Data Manager
-    let iotDataManager = AWSIoTDataManager(forKey: "MyAWSIoTDataManager")
+    // Initialize AWSIoTManager
+    let awsIoTManager = IoTManager()
     
     var body: some View {
         List {
@@ -121,8 +121,8 @@ struct ReservedSpotView: View {
                         alertItem = AlertItem(message: "Are you sure you want to open the barrier?")
                     } else {
                         print("Barrier closed")
-                        publishMessage()
                         barrierOpen.toggle()
+                        publishMessage()
                     }
                 } label: {
                     HStack {
@@ -146,8 +146,8 @@ struct ReservedSpotView: View {
                 message: Text(alertItem.message),
                 primaryButton: .default(Text("Yes")) {
                     print("Barrier opened")
-                    publishMessage()
                     barrierOpen.toggle()
+                    publishMessage()
                 },
                 secondaryButton: .cancel(Text("No")) {
                     print("Barrier remains closed")
@@ -182,26 +182,11 @@ struct ReservedSpotView: View {
     }
     
     func publishMessage() {
-        guard iotDataManager.getConnectionStatus() == .connected else {
-            print("Not connected to AWS IoT Core")
-            return
-        }
-        
-        let message = """
-            {
-              "parkingLotId": \(reservation.parkingLotId!),
-              "spotId": "\(reservation.spotId!)",
-              "barrier": \(barrierOpen ? 0 : 1)
-            }
-            """
-        let topic = "lots/barriers"
-        
-        iotDataManager.publishString(
-            message,
-            onTopic: topic,
-            qoS: .messageDeliveryAttemptedAtLeastOnce
+        awsIoTManager.publishMessage(
+            parkingLotId: reservation.parkingLotId!,
+            spotId: reservation.spotId!,
+            barrierOpen: barrierOpen
         )
-        print("Published")
     }
 }
 #endif
