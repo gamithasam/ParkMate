@@ -1,0 +1,557 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		0D1788C52CFBA28C004917AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D1788AC2CFBA28A004917AB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D1788B32CFBA28A004917AB;
+			remoteInfo = "ParkMate Admin";
+		};
+		0D1788CF2CFBA28D004917AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D1788AC2CFBA28A004917AB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D1788B32CFBA28A004917AB;
+			remoteInfo = "ParkMate Admin";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0D1788B42CFBA28A004917AB /* ParkMate Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ParkMate Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D1788C42CFBA28C004917AB /* ParkMate AdminTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ParkMate AdminTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D1788CE2CFBA28D004917AB /* ParkMate AdminUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ParkMate AdminUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0D1788B62CFBA28A004917AB /* ParkMate Admin */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "ParkMate Admin";
+			sourceTree = "<group>";
+		};
+		0D1788C72CFBA28C004917AB /* ParkMate AdminTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "ParkMate AdminTests";
+			sourceTree = "<group>";
+		};
+		0D1788D12CFBA28D004917AB /* ParkMate AdminUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "ParkMate AdminUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0D1788B12CFBA28A004917AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1788C12CFBA28C004917AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1788CB2CFBA28D004917AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0D1788AB2CFBA28A004917AB = {
+			isa = PBXGroup;
+			children = (
+				0D1788B62CFBA28A004917AB /* ParkMate Admin */,
+				0D1788C72CFBA28C004917AB /* ParkMate AdminTests */,
+				0D1788D12CFBA28D004917AB /* ParkMate AdminUITests */,
+				0D1788B52CFBA28A004917AB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0D1788B52CFBA28A004917AB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0D1788B42CFBA28A004917AB /* ParkMate Admin.app */,
+				0D1788C42CFBA28C004917AB /* ParkMate AdminTests.xctest */,
+				0D1788CE2CFBA28D004917AB /* ParkMate AdminUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0D1788B32CFBA28A004917AB /* ParkMate Admin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D1788D82CFBA28D004917AB /* Build configuration list for PBXNativeTarget "ParkMate Admin" */;
+			buildPhases = (
+				0D1788B02CFBA28A004917AB /* Sources */,
+				0D1788B12CFBA28A004917AB /* Frameworks */,
+				0D1788B22CFBA28A004917AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				0D1788B62CFBA28A004917AB /* ParkMate Admin */,
+			);
+			name = "ParkMate Admin";
+			packageProductDependencies = (
+			);
+			productName = "ParkMate Admin";
+			productReference = 0D1788B42CFBA28A004917AB /* ParkMate Admin.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0D1788C32CFBA28C004917AB /* ParkMate AdminTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D1788DB2CFBA28D004917AB /* Build configuration list for PBXNativeTarget "ParkMate AdminTests" */;
+			buildPhases = (
+				0D1788C02CFBA28C004917AB /* Sources */,
+				0D1788C12CFBA28C004917AB /* Frameworks */,
+				0D1788C22CFBA28C004917AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0D1788C62CFBA28C004917AB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0D1788C72CFBA28C004917AB /* ParkMate AdminTests */,
+			);
+			name = "ParkMate AdminTests";
+			packageProductDependencies = (
+			);
+			productName = "ParkMate AdminTests";
+			productReference = 0D1788C42CFBA28C004917AB /* ParkMate AdminTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0D1788CD2CFBA28D004917AB /* ParkMate AdminUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D1788DE2CFBA28D004917AB /* Build configuration list for PBXNativeTarget "ParkMate AdminUITests" */;
+			buildPhases = (
+				0D1788CA2CFBA28D004917AB /* Sources */,
+				0D1788CB2CFBA28D004917AB /* Frameworks */,
+				0D1788CC2CFBA28D004917AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0D1788D02CFBA28D004917AB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0D1788D12CFBA28D004917AB /* ParkMate AdminUITests */,
+			);
+			name = "ParkMate AdminUITests";
+			packageProductDependencies = (
+			);
+			productName = "ParkMate AdminUITests";
+			productReference = 0D1788CE2CFBA28D004917AB /* ParkMate AdminUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0D1788AC2CFBA28A004917AB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					0D1788B32CFBA28A004917AB = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					0D1788C32CFBA28C004917AB = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 0D1788B32CFBA28A004917AB;
+					};
+					0D1788CD2CFBA28D004917AB = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 0D1788B32CFBA28A004917AB;
+					};
+				};
+			};
+			buildConfigurationList = 0D1788AF2CFBA28A004917AB /* Build configuration list for PBXProject "ParkMate Admin" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0D1788AB2CFBA28A004917AB;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 0D1788B52CFBA28A004917AB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0D1788B32CFBA28A004917AB /* ParkMate Admin */,
+				0D1788C32CFBA28C004917AB /* ParkMate AdminTests */,
+				0D1788CD2CFBA28D004917AB /* ParkMate AdminUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0D1788B22CFBA28A004917AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1788C22CFBA28C004917AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1788CC2CFBA28D004917AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0D1788B02CFBA28A004917AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1788C02CFBA28C004917AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1788CA2CFBA28D004917AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0D1788C62CFBA28C004917AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0D1788B32CFBA28A004917AB /* ParkMate Admin */;
+			targetProxy = 0D1788C52CFBA28C004917AB /* PBXContainerItemProxy */;
+		};
+		0D1788D02CFBA28D004917AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0D1788B32CFBA28A004917AB /* ParkMate Admin */;
+			targetProxy = 0D1788CF2CFBA28D004917AB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0D1788D62CFBA28D004917AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0D1788D72CFBA28D004917AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0D1788D92CFBA28D004917AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ParkMate Admin/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.skip.parkmate.ParkMate-Admin";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0D1788DA2CFBA28D004917AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ParkMate Admin/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.skip.parkmate.ParkMate-Admin";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0D1788DC2CFBA28D004917AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.skip.parkmate.ParkMate-AdminTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ParkMate Admin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ParkMate Admin";
+			};
+			name = Debug;
+		};
+		0D1788DD2CFBA28D004917AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.skip.parkmate.ParkMate-AdminTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ParkMate Admin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ParkMate Admin";
+			};
+			name = Release;
+		};
+		0D1788DF2CFBA28D004917AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.skip.parkmate.ParkMate-AdminUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "ParkMate Admin";
+			};
+			name = Debug;
+		};
+		0D1788E02CFBA28D004917AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.skip.parkmate.ParkMate-AdminUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "ParkMate Admin";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0D1788AF2CFBA28A004917AB /* Build configuration list for PBXProject "ParkMate Admin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D1788D62CFBA28D004917AB /* Debug */,
+				0D1788D72CFBA28D004917AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0D1788D82CFBA28D004917AB /* Build configuration list for PBXNativeTarget "ParkMate Admin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D1788D92CFBA28D004917AB /* Debug */,
+				0D1788DA2CFBA28D004917AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0D1788DB2CFBA28D004917AB /* Build configuration list for PBXNativeTarget "ParkMate AdminTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D1788DC2CFBA28D004917AB /* Debug */,
+				0D1788DD2CFBA28D004917AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0D1788DE2CFBA28D004917AB /* Build configuration list for PBXNativeTarget "ParkMate AdminUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D1788DF2CFBA28D004917AB /* Debug */,
+				0D1788E02CFBA28D004917AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0D1788AC2CFBA28A004917AB /* Project object */;
+}
