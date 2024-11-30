@@ -53,7 +53,7 @@ struct CardView: View {
             .padding(.leading, 16)
         }
         .padding(9)
-        .background(Color.white)
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(16)
     }
 }
