@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct SidebarView: View {
+    @Binding var parkingSpots: [ParkingSpot]
+    
     var body: some View {
         VStack(spacing: 16) {
             // Statistics Card
-            StatsCard()
+            StatsCard(parkingSpots: $parkingSpots)
             
             // Vehicles List
             VehiclesList()
@@ -24,6 +26,6 @@ struct SidebarView: View {
     }
 }
 
-#Preview {
-    SidebarView()
-}
+//#Preview {
+//    SidebarView()
+//}

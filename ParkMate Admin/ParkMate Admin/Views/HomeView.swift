@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import AWSDynamoDB
 
 struct HomeView: View {
     @Binding var searchText: String
     @Binding var selectedFilter: Int
+    @Binding var parkingSpots: [ParkingSpot]
     
     private let columns = [
         GridItem(.adaptive(minimum: 200), spacing: 16)
@@ -29,19 +31,20 @@ struct HomeView: View {
             // Parking Grid
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(0..<20) { index in
-                        ParkingSpotCard(spotNumber: "A\(index + 1)",
-                                      status: index % 3 == 0 ? .available :
-                                                index % 3 == 1 ? .reserved : .occupied)
+                    ForEach($parkingSpots) { $spot in
+                        ParkingSpotCard(spotNumber: spot.spotId, status: spot.status == .available ? .available :
+                                            spot.status == .reserved ? .reserved : .occupied)
                     }
                 }
                 .padding()
             }
         }
         .background(Color(UIColor.systemGroupedBackground))
+        
     }
+
 }
 
-#Preview {
-    HomeView(searchText: .constant(""), selectedFilter: .constant(0))
-}
+//#Preview {
+//    HomeView(searchText: .constant(""), selectedFilter: .constant(0))
+//}

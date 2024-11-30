@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct StatsCard: View {
+    @Binding var parkingSpots: [ParkingSpot]
+    
     var body: some View {
+        let availableCount = parkingSpots.filter { $0.status == .available }.count
+        let reservedCount = parkingSpots.filter { $0.status == .reserved }.count
+        let occupiedCount = parkingSpots.filter { $0.status == .occupied }.count
+        
         VStack(alignment: .leading, spacing: 8) {
             Text("Overview")
                 .font(.headline)
             
             Group {
-                StatRow(title: "Total Spots", value: "100")
-                StatRow(title: "Available", value: "45")
-                StatRow(title: "Reserved", value: "15")
+                StatRow(title: "Total Spots", value: "\(parkingSpots.count)")
+                StatRow(title: "Available", value: "\(availableCount)")
+                StatRow(title: "Reserved", value: "\(reservedCount)")
+                StatRow(title: "Occupied", value: "\(occupiedCount)")
                 StatRow(title: "Vehicles Inside", value: "40")
             }
         }
@@ -41,6 +48,6 @@ struct StatRow: View {
     }
 }
 
-#Preview {
-    StatsCard()
-}
+//#Preview {
+//    StatsCard()
+//}

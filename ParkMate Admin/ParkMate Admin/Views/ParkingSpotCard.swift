@@ -42,7 +42,7 @@ struct ParkingSpotCard: View {
                 .background(status.color)
                 .cornerRadius(6)
             
-            Text("Spot \(spotNumber)")
+            Text("\(spotNumber)")
                 .font(.headline)
             
             if status == .reserved {
