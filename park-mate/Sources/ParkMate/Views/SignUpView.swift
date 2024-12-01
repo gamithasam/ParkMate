@@ -233,6 +233,9 @@ struct SignUpView: View {
                     self.alertItem = AlertItem(message: "An error occured while saving this account. Please try again.")
                 } else {
                     print("User saved successfully.")
+                    // Save user session
+                    UserDefaults.standard.set(self.email, forKey: "userEmail")
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
                 }
             }
         }

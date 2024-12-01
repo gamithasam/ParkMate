@@ -227,7 +227,6 @@ struct OnboardingView: View {
                     UserDefaults.standard.set(true, forKey: "isLoggedIn")
                     self.isLoggedIn = true
                     print("Successfully signed in with email: \(user.email!)")
-                    // TODO: Add navigation to main app view
                 }
             } else {
                 DispatchQueue.main.async {
