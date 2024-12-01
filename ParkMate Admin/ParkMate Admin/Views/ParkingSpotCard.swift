@@ -47,15 +47,13 @@ struct ParkingSpotCard: View {
             Text("\(spotNumber)")
                 .font(.headline)
             
-            if status == .reserved {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Reserved for: \(email)")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Text("Time: \(convertDateString(dateNTime) ?? "Unknown")")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
+            VStack(alignment: .leading, spacing: 4) {
+                Text(status == .reserved ? "Reserved for: \(email)" : "")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Text(status == .reserved ? "Time: \(convertDateString(dateNTime) ?? "Unknown")" : "")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
         }
         .padding()
