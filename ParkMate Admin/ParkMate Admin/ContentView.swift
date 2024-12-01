@@ -23,16 +23,17 @@ struct ContentView: View {
     @State private var searchText = ""
     @State private var selectedFilter = 0
     @State var parkingSpots: [ParkingSpot] = []
+    @State private var isLoading: Bool = true
     let parkingLotId: Int = 1
     
     var body: some View {
         NavigationView {
                 // Sidebar
-            SidebarView(parkingSpots: $parkingSpots)
+            SidebarView(parkingSpots: $parkingSpots, parkingSpotsIsLoading: $isLoading)
                     .frame(width: 300)
                 
                 // Main Content
-            HomeView(searchText: $searchText, selectedFilter: $selectedFilter, parkingSpots: $parkingSpots)
+            HomeView(searchText: $searchText, selectedFilter: $selectedFilter, parkingSpots: $parkingSpots, isLoading: $isLoading)
             .navigationTitle("Parking Lot Status")
         }
         .onAppear {
@@ -43,7 +44,7 @@ struct ContentView: View {
     func loadParkingSpots() {
         DatabaseManager.shared.fetchParkingSpots(parkingLotId: parkingLotId) { spots, error in
             DispatchQueue.main.async {
-//                self.isLoading = false
+                self.isLoading = false
                 if let error = error {
 //                    self.alertItem = AlertItem(message: "Failed to load parking spots")
                     print("Failed to load parking spots: \(error.localizedDescription)")

@@ -12,6 +12,7 @@ struct HomeView: View {
     @Binding var searchText: String
     @Binding var selectedFilter: Int
     @Binding var parkingSpots: [ParkingSpot]
+    @Binding var isLoading: Bool
     
     private let columns = [
         GridItem(.adaptive(minimum: 200), spacing: 16)
@@ -30,13 +31,18 @@ struct HomeView: View {
             
             // Parking Grid
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach($parkingSpots) { $spot in
-                        ParkingSpotCard(spotNumber: spot.spotId, status: spot.status == .available ? .available :
-                                            spot.status == .reserved ? .reserved : .occupied)
+                if isLoading {
+                    ProgressView("Loading Parking Spots...")
+                        .padding()
+                } else {
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        ForEach($parkingSpots) { $spot in
+                            ParkingSpotCard(spotNumber: spot.spotId, status: spot.status == .available ? .available :
+                                                spot.status == .reserved ? .reserved : .occupied)
+                        }
                     }
+                    .padding()
                 }
-                .padding()
             }
         }
         .background(Color(UIColor.systemGroupedBackground))

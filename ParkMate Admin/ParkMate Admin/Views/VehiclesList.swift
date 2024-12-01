@@ -10,15 +10,21 @@ import SwiftUI
 struct VehiclesList: View {
     @Binding var vehicles: [String: String]
     
+    @Binding var vehiclesIsLoading: Bool
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Vehicles Currently Inside")
                 .font(.headline)
             
             ScrollView {
-                VStack(spacing: 12) {
-                    ForEach(vehicles.sorted(by: { $0.key < $1.key }), id: \.key) { item in
-                        VehicleCard(licensePlate: item.key, enteredTime: item.value)
+                if vehiclesIsLoading {
+                    ProgressView("Loading vehicles...")
+                } else {
+                    VStack(spacing: 12) {
+                        ForEach(vehicles.sorted(by: { $0.key < $1.key }), id: \.key) { item in
+                            VehicleCard(licensePlate: item.key, enteredTime: item.value)
+                        }
                     }
                 }
             }

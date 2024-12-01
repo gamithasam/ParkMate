@@ -11,13 +11,16 @@ struct SidebarView: View {
     @Binding var parkingSpots: [ParkingSpot]
     @State private var vehicles: [String: String] = [:]
     
+    @Binding var parkingSpotsIsLoading: Bool
+    @State private var vehiclesIsLoading: Bool = true
+    
     var body: some View {
         VStack(spacing: 16) {
             // Statistics Card
-            StatsCard(parkingSpots: $parkingSpots, vehicles: $vehicles)
+            StatsCard(parkingSpots: $parkingSpots, vehicles: $vehicles, parkingSpotsIsLoading: $parkingSpotsIsLoading, vehiclesIsLoading: $vehiclesIsLoading)
             
             // Vehicles List
-            VehiclesList(vehicles: $vehicles)
+            VehiclesList(vehicles: $vehicles, vehiclesIsLoading: $vehiclesIsLoading)
             
             Spacer()
         }
@@ -33,13 +36,16 @@ struct SidebarView: View {
         DatabaseManager.shared.fetchInsideVehicles(parkingLotId: 1) { (vehiclesData, error) in
             if let error = error {
                 print("Error fetching vehicles: \(error)")
+                vehiclesIsLoading = false
             } else if let vehiclesData = vehiclesData {
                 // Update the state variable on the main thread
                 DispatchQueue.main.async {
                     self.vehicles = vehiclesData
+                    vehiclesIsLoading = false
                 }
             } else {
                 print("No vehicles found.")
+                vehiclesIsLoading = false
             }
         }
     }
