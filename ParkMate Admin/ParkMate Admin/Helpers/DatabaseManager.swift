@@ -208,4 +208,23 @@ class DatabaseManager {
 //            }
 //        }
 //    }
+    
+    func fetchReservations(parkingLotId: Int, completion: @escaping ([ReservationItem]?, Error?) -> Void) {
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
+        
+        let queryExpression = AWSDynamoDBQueryExpression()
+        queryExpression.indexName = "ParkingLotIdIndex" // Ensure this matches your GSI name
+        queryExpression.keyConditionExpression = "parkingLotId = :parkingLotId"
+        queryExpression.expressionAttributeValues = [":parkingLotId": parkingLotId]
+        
+        dynamoDBObjectMapper.query(ReservationItem.self, expression: queryExpression) { (output, error) in
+            if let error = error {
+                completion(nil, error)
+            } else if let items = output?.items as? [ReservationItem] {
+                completion(items, nil)
+            } else {
+                completion([], nil)
+            }
+        }
+    }
 }

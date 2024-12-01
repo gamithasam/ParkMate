@@ -15,7 +15,7 @@ struct ParkingSpot: Identifiable {
     var status: SpotStatus
     
     enum SpotStatus: String {
-        case available, occupied, reserved, selected
+        case available, occupied, reserved
     }
 }
 
@@ -34,7 +34,7 @@ struct ContentView: View {
                 
                 // Main Content
             HomeView(searchText: $searchText, selectedFilter: $selectedFilter, parkingSpots: $parkingSpots, isLoading: $isLoading)
-            .navigationTitle("Parking Lot Status")
+            .navigationTitle("KCC Car Park") // TODO: Remove Hardcorded Title
         }
         .onAppear {
             loadParkingSpots()
@@ -48,7 +48,6 @@ struct ContentView: View {
                 if let error = error {
 //                    self.alertItem = AlertItem(message: "Failed to load parking spots")
                     print("Failed to load parking spots: \(error.localizedDescription)")
-//                    selectedLot = nil
                 } else if let spots = spots {
                     self.parkingSpots = spots.sorted { $0.spotId < $1.spotId }
                 }

@@ -30,6 +30,8 @@ struct ParkingSpotCard: View {
     
     let spotNumber: String
     let status: SpotStatus
+    let email: String
+    let dateNTime: String
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -47,10 +49,10 @@ struct ParkingSpotCard: View {
             
             if status == .reserved {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Reserved for: John Doe")
+                    Text("Reserved for: \(email)")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    Text("Time: 20:00 - 22:00")
+                    Text("Time: \(convertDateString(dateNTime) ?? "Unknown")")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -61,8 +63,31 @@ struct ParkingSpotCard: View {
         .background(Color(UIColor.systemBackground))
         .cornerRadius(12)
     }
+    
+    func convertDateString(_ dateString: String) -> String? {
+        // Define the input date format
+        let inputDateFormat = "d MMM yyyy 'at' hh:mm:ss a"
+        let inputDateFormatter = DateFormatter()
+        inputDateFormatter.dateFormat = inputDateFormat
+        inputDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        // Parse the input date string to a Date object
+        guard let date = inputDateFormatter.date(from: dateString) else {
+            return nil
+        }
+        
+        // Define the output date format
+        let outputDateFormat = "MM/dd/yyyy h:mma"
+        let outputDateFormatter = DateFormatter()
+        outputDateFormatter.dateFormat = outputDateFormat
+        outputDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        // Convert the Date object to the output date string
+        let outputDateString = outputDateFormatter.string(from: date)
+        return outputDateString
+    }
 }
 
-#Preview {
-    ParkingSpotCard(spotNumber: "A-01", status: .reserved)
-}
+//#Preview {
+//    ParkingSpotCard(spotNumber: "A-01", status: .reserved)
+//}

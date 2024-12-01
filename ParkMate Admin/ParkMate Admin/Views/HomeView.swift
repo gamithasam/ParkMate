@@ -9,6 +9,9 @@ import SwiftUI
 import AWSDynamoDB
 
 struct HomeView: View {
+    @StateObject private var viewModel = ReservationsViewModel()
+    let parkingLotId: Int = 1
+    
     @Binding var searchText: String
     @Binding var selectedFilter: Int
     @Binding var parkingSpots: [ParkingSpot]
@@ -29,6 +32,9 @@ struct HomeView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
             
+            // TODO: Fix this shit
+            
+            
             // Parking Grid
             ScrollView {
                 if isLoading {
@@ -37,8 +43,16 @@ struct HomeView: View {
                 } else {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach($parkingSpots) { $spot in
-                            ParkingSpotCard(spotNumber: spot.spotId, status: spot.status == .available ? .available :
-                                                spot.status == .reserved ? .reserved : .occupied)
+                            let email = viewModel.reservationsDict[spot.spotId]?.email ?? "N/A"
+                            let dateNTime = viewModel.reservationsDict[spot.spotId]?.dateNTime ?? "N/A"
+
+                            ParkingSpotCard(
+                                spotNumber: spot.spotId,
+                                status: spot.status == .available ? .available :
+                                        spot.status == .reserved ? .reserved : .occupied,
+                                email: email,
+                                dateNTime: dateNTime
+                            )
                         }
                     }
                     .padding()
@@ -46,11 +60,20 @@ struct HomeView: View {
             }
         }
         .background(Color(UIColor.systemGroupedBackground))
+        .onAppear {
+            // Fetch reservations when the view appears
+            viewModel.fetchReservations(parkingLotId: parkingLotId)
+        }
         
     }
 
 }
 
 //#Preview {
-//    HomeView(searchText: .constant(""), selectedFilter: .constant(0))
+//    HomeView(
+//        searchText: .constant(""),
+//        selectedFilter: .constant(0),
+//        parkingSpots: .constant([]),
+//        isLoading: .constant(false)
+//    )
 //}
