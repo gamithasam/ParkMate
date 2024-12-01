@@ -21,6 +21,17 @@ struct HomeView: View {
         GridItem(.adaptive(minimum: 200), spacing: 16)
     ]
     
+    private var filteredSpots: [ParkingSpot] {
+        switch selectedFilter {
+        case 1:
+            return parkingSpots.filter { $0.status == .available }
+        case 2:
+            return parkingSpots.filter { $0.status == .reserved }
+        default:
+            return parkingSpots
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 16) {
             // Filter Segments
@@ -42,7 +53,7 @@ struct HomeView: View {
                         .padding()
                 } else {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach($parkingSpots) { $spot in
+                        ForEach(filteredSpots) { spot in
                             let email = viewModel.reservationsDict[spot.spotId]?.email ?? "N/A"
                             let dateNTime = viewModel.reservationsDict[spot.spotId]?.dateNTime ?? "N/A"
 
