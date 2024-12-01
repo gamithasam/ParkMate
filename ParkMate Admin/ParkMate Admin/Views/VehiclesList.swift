@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct VehiclesList: View {
+    @Binding var vehicles: [String: String]
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Vehicles Currently Inside")
@@ -15,8 +17,8 @@ struct VehiclesList: View {
             
             ScrollView {
                 VStack(spacing: 12) {
-                    ForEach(0..<10) { _ in
-                        VehicleCard()
+                    ForEach(vehicles.sorted(by: { $0.key < $1.key }), id: \.key) { item in
+                        VehicleCard(licensePlate: item.key, enteredTime: item.value)
                     }
                 }
             }
@@ -25,24 +27,76 @@ struct VehiclesList: View {
 }
 
 struct VehicleCard: View {
+    let licensePlate: String
+    let enteredTime: String
+    let currentDate = Date()
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("ABC 123")
+            Text(licensePlate)
                 .font(.headline)
-            Text("Entry Time: 14:30")
+            Text("Entry Time: \(formatDateString(enteredTime) ?? "Unknown")")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-            Text("Duration: 2h 15m")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            if let parsedDate = parseDate(from: enteredTime) {
+                let currentDate = Date()
+                if let result = timeDifference(from: parsedDate, to: currentDate) {
+                    Text("Duration: \(result)")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+            }
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(UIColor.secondarySystemBackground))
         .cornerRadius(8)
     }
+    
+    private func formatDateString(_ dateString: String) -> String? {
+        // Create a DateFormatter for the input format
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXXXX"
+        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+        // Parse the input date string to a Date object
+        guard let date = inputFormatter.date(from: dateString) else {
+            print("Invalid date format")
+            return nil
+        }
+
+        // Create a DateFormatter for the desired output format
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "MM/dd/yyyy h:mma"
+        outputFormatter.amSymbol = "AM"
+        outputFormatter.pmSymbol = "PM"
+        outputFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+        // Format the Date object to the desired output string
+        let formattedDateString = outputFormatter.string(from: date)
+        return formattedDateString
+    }
+    
+    func parseDate(from dateString: String) -> Date? {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return dateFormatter.date(from: dateString)
+    }
+
+    func timeDifference(from date: Date, to currentDate: Date) -> String? {
+        let difference = Calendar.current.dateComponents([.hour, .minute], from: date, to: currentDate)
+        guard let hours = difference.hour, let minutes = difference.minute else {
+            return nil
+        }
+        
+        if hours == 0 {
+            return "\(minutes)min"
+        } else {
+            return "\(hours)h \(minutes)min"
+        }
+    }
 }
 
-#Preview {
-    VehiclesList()
-}
+//#Preview {
+//    VehiclesList()
+//}

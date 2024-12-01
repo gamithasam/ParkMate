@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StatsCard: View {
     @Binding var parkingSpots: [ParkingSpot]
+    @Binding var vehicles: [String: String]
     
     var body: some View {
         let availableCount = parkingSpots.filter { $0.status == .available }.count
@@ -24,7 +25,7 @@ struct StatsCard: View {
                 StatRow(title: "Available", value: "\(availableCount)")
                 StatRow(title: "Reserved", value: "\(reservedCount)")
                 StatRow(title: "Occupied", value: "\(occupiedCount)")
-                StatRow(title: "Vehicles Inside", value: "40")
+                StatRow(title: "Vehicles Inside", value: "\(vehicles.count)")
             }
         }
         .padding()

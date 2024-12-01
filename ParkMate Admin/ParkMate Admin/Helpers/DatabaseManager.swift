@@ -137,6 +137,45 @@ class DatabaseManager {
         }
     }
     
+    func fetchInsideVehicles(parkingLotId: Int, completion: @escaping ([String: String]?, Error?) -> Void) {
+        let dynamoDB = AWSDynamoDB.default()
+        
+        // Unwrap getItemInput
+        guard let getItemInput = AWSDynamoDBGetItemInput() else {
+            completion(nil, NSError(domain: "AWSDynamoDBErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create AWSDynamoDBGetItemInput."]))
+            return
+        }
+        getItemInput.tableName = "InsideVehicles"
+        
+        // Unwrap parkingLotIdValue
+        guard let parkingLotIdValue = AWSDynamoDBAttributeValue() else {
+            completion(nil, NSError(domain: "AWSDynamoDBErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create AWSDynamoDBAttributeValue."]))
+            return
+        }
+        parkingLotIdValue.n = "\(parkingLotId)"
+        
+        getItemInput.key = ["parkingLotId": parkingLotIdValue]
+        
+        dynamoDB.getItem(getItemInput) { (output, error) in
+            if let error = error {
+                completion(nil, error)
+            } else if let item = output?.item {
+                var result: [String: String] = [:]
+                for (key, value) in item {
+                    // Skip the partition key
+                    if key != "parkingLotId",
+                       let mapValue = value.m,
+                       let enteredTime = mapValue["enteredTime"]?.s {
+                        result[key] = enteredTime
+                    }
+                }
+                completion(result, nil)
+            } else {
+                completion(nil, nil)
+            }
+        }
+    }
+    
 //    func getUserReservationsWithParkingDetails(email: String, completion: @escaping ([ReservationDetail]?, Error?) -> Void) {
 //        fetchReservations(email: email) { reservations, error in
 //            if let error = error {
