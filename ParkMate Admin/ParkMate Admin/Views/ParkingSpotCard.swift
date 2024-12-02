@@ -30,28 +30,35 @@ struct ParkingSpotCard: View {
     
     let spotNumber: String
     let status: SpotStatus
+    var newStatus: SpotStatus {
+        if email != "N/A" {
+            return .reserved
+        } else {
+            return status
+        }
+    }
     let email: String
     let dateNTime: String
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Status Badge
-            Text(status.text)
+            Text(newStatus.text)
                 .font(.caption)
                 .foregroundColor(.white)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
-                .background(status.color)
+                .background(newStatus.color)
                 .cornerRadius(6)
             
             Text("\(spotNumber)")
                 .font(.headline)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(status == .reserved ? "Reserved for: \(email)" : "")
+                Text(newStatus == .reserved ? "Reserved for: \(email)" : "")
                     .font(.caption)
                     .foregroundColor(.secondary)
-                Text(status == .reserved ? "Time: \(convertDateString(dateNTime) ?? "Unknown")" : "")
+                Text(newStatus == .reserved ? "Time: \(convertDateString(dateNTime) ?? "Unknown")" : "")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }

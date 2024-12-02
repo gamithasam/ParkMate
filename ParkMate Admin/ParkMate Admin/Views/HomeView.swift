@@ -56,8 +56,7 @@ struct HomeView: View {
 
                             ParkingSpotCard(
                                 spotNumber: spot.spotId,
-                                status: spot.status == .available ? .available :
-                                        spot.status == .reserved ? .reserved : .occupied,
+                                status: spot.status == .available ? .available : .occupied,
                                 email: email,
                                 dateNTime: dateNTime
                             )
