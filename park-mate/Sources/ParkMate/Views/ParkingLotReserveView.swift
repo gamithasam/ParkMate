@@ -14,13 +14,12 @@ struct ParkingSpot: Identifiable {
     var status: SpotStatus
     
     enum SpotStatus: String, CustomStringConvertible {
-        case available, occupied, reserved, selected
+        case available, occupied, selected
         
         var description: String {
             switch self {
             case .available: return "Available"
             case .occupied: return "Occupied"
-            case .reserved: return "Reserved"
             case .selected: return "Selected"
             }
         }
@@ -33,6 +32,8 @@ struct ParkingLotReserveView: View {
     let hours: Int
     let vehicle: String
     let price: Double
+    
+    @StateObject private var viewModel = AllReservationsViewModel()
     
     @State private var parkingSpots: [ParkingSpot] = []
     @State private var isLoading = true
@@ -60,22 +61,64 @@ struct ParkingLotReserveView: View {
                     ForEach($parkingSpots) { $spot in
                         switch (spot.status) {
                         case .available:
-                            Button(action: {
-                                print("Tapped spot \(spot.spotId)")
-                                spot.status = .selected
-                            }) {
-                                VStack(spacing: 2) {
-                                    Text(spot.spotId)
-                                        .font(.body)
-                                    Text(spot.status.description)
-                                        .font(.caption)
+                            if let reservationDate = viewModel.reservationsDict[spot.spotId]?.dateNTime {
+                                // If this spot has a reservation this closure runs
+                                // Check whether the reservation is in the specified time
+                                if isDateWithinRange(selectedDate: self.selectedDateNTime, selectedHours: self.hours, reservationDate: reservationDate, reservationHours: viewModel.reservationsDict[spot.spotId]?.hours ?? 1, spot: String(spot.spotId)) {
+                                    // If this closure runs, the spot is reserved
+                                    Button(action: {
+                                        print("Tapped spot \(spot.spotId)")
+                                    }) {
+                                        VStack(spacing: 2) {
+                                            Text(spot.spotId)
+                                                .font(.body)
+                                            Text(spot.status.description)
+                                                .font(.caption)
+                                        }
+                                        .padding(.vertical, 4)
+                                        .padding(.horizontal, 12)
+                                    }
+                                    .buttonStyle(.borderedProminent)
+                                    .tint(.red)
+                                    .fixedSize(horizontal: true, vertical: true)
+                                } else {
+                                    // If this closure runs, the spot is avaialable at the selected time (the reservation is at another time)
+                                    Button(action: {
+                                        print("Tapped spot \(spot.spotId)")
+                                        spot.status = .selected
+                                    }) {
+                                        VStack(spacing: 2) {
+                                            Text(spot.spotId)
+                                                .font(.body)
+                                            Text(spot.status.description)
+                                                .font(.caption)
+                                        }
+                                        .padding(.vertical, 4)
+                                        .padding(.horizontal, 12)
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .tint(.blue)
+                                    .fixedSize(horizontal: true, vertical: true)
                                 }
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 12)
+                            } else {
+                                // There's no reservation for this spot
+                                Button(action: {
+                                    print("Tapped spot \(spot.spotId)")
+                                    spot.status = .selected
+                                }) {
+                                    VStack(spacing: 2) {
+                                        Text(spot.spotId)
+                                            .font(.body)
+                                        Text(spot.status.description)
+                                            .font(.caption)
+                                    }
+                                    .padding(.vertical, 4)
+                                    .padding(.horizontal, 12)
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.blue)
+                                .fixedSize(horizontal: true, vertical: true)
                             }
-                            .buttonStyle(.bordered)
-                            .tint(.blue)
-                            .fixedSize(horizontal: true, vertical: true)
                         case .occupied:
                             Button(action: {
                                 print("Tapped spot \(spot.spotId)")
@@ -94,22 +137,6 @@ struct ParkingLotReserveView: View {
                             }
                             .buttonStyle(.bordered)
                             .foregroundColor(.black)
-                            .fixedSize(horizontal: true, vertical: true)
-                        case .reserved:
-                            Button(action: {
-                                print("Tapped spot \(spot.spotId)")
-                            }) {
-                                VStack(spacing: 2) {
-                                    Text(spot.spotId)
-                                        .font(.body)
-                                    Text(spot.status.description)
-                                        .font(.caption)
-                                }
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 12)
-                            }
-                            .buttonStyle(.borderedProminent)
-                            .tint(.red)
                             .fixedSize(horizontal: true, vertical: true)
                         case .selected:
                             Button(action: {
@@ -158,6 +185,7 @@ struct ParkingLotReserveView: View {
         .frame(maxHeight: .infinity)
         .onAppear {
             loadParkingSpots()
+            viewModel.fetchAllReservations(parkingLotId: parkingLotId)
         }
         .alert(item: $alertItem) { alert in
             Alert(
@@ -177,6 +205,47 @@ struct ParkingLotReserveView: View {
             )
             .presentationDetents([.medium])
         }
+    }
+    
+    func isDateWithinRange(selectedDate: Date, selectedHours: Int, reservationDate: String, reservationHours: NSNumber, spot: String) -> Bool {
+        // Define the date formatter to match the format of your string date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMM yyyy 'at' h:mm:ss a"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        // Parse the string date into a Date object
+        guard let parsedReservationDate = dateFormatter.date(from: reservationDate) else {
+            // If parsing fails, return false or handle the error accordingly
+            return false
+        }
+        
+        // Calculate the reservation end date by adding the specified number of hours
+        guard let reservationEndDate = Calendar.current.date(byAdding: .hour, value: reservationHours.intValue, to: parsedReservationDate) else {
+            // If date calculation fails, return false or handle the error accordingly
+            return false
+        }
+        
+        // Calculate the selected end date by adding the specified number of hours
+        guard let selectedEndDate = Calendar.current.date(byAdding: .hour, value: selectedHours, to: selectedDate) else {
+            // If date calculation fails, return false or handle the error accordingly
+            return false
+        }
+        
+        // Calculate the status
+        let beginningStatus = (selectedDate <= reservationEndDate && selectedDate >= parsedReservationDate)
+        let endStatus = (selectedEndDate <= reservationEndDate && selectedEndDate >= parsedReservationDate)
+        let status = beginningStatus || endStatus
+
+        print("Spot: \(spot) | SelectedDate: \(selectedDate)")
+        print("Spot: \(spot) | SelectedHours: \(selectedHours)")
+        print("Spot: \(spot) | SelectedEndDate: \(selectedEndDate)")
+        print("Spot: \(spot) | ParsedReservationDate: \(parsedReservationDate)")
+        print("Spot: \(spot) | ReservationHours: \(reservationHours)")
+        print("Spot: \(spot) | ReservationEndDate: \(reservationEndDate)")
+        print("Spot: \(spot) | Beginning within range: \(beginningStatus)")
+        print("Spot: \(spot) | End within range: \(endStatus)")
+        print("Spot: \(spot) | Date within range: \(status)")
+        return status
     }
     
     func loadParkingSpots() {
@@ -202,36 +271,11 @@ struct ParkingLotReserveView: View {
         
         isReserving = true
         
-        // Update ParkingSpots Table
-        DatabaseManager.shared.reserveParkingSpots(parkingLotId: parkingLotId, spotIds: spotIdsToReserve) { error in
-            DispatchQueue.main.async {
-                self.isReserving = false
-                if let error = error {
-                    self.alertItem = AlertItem(message: "Failed to reserve parking spots")
-                    print("Failed to reserve spots: \(error.localizedDescription)")
-                } else {
-                    // After successfully reserving spots, add reservations
-                    self.addReservations(for: selectedSpots)
-                    selectedLot = nil
-                }
-            }
-        }
-        
-        // Close the barrier(s)
-        for spotId in spotIdsToReserve {
-            awsIoTManager.publishMessage(
-                parkingLotId: NSNumber(value: parkingLotId),
-                spotId: spotId,
-                barrierOpen: false
-            )
-        }
-    }
-    
-    func addReservations(for spots: [ParkingSpot]) {
+        // Update Reservations Table
         let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
         let dispatchGroup = DispatchGroup()
         
-        for spot in spots {
+        for spot in selectedSpots {
             dispatchGroup.enter()
             
             let reservation = Reservation()
@@ -248,8 +292,19 @@ struct ParkingLotReserveView: View {
                     print("Failed to add reservation for spot \(spot.spotId): \(error.localizedDescription)")
                     self.alertItem = AlertItem(message: "Failed to add reservation")
                 }
+                selectedLot = nil
+                isReserving = false
                 dispatchGroup.leave()
             }
+        }
+        
+        // Close the barrier(s)
+        for spotId in spotIdsToReserve {
+            awsIoTManager.publishMessage(
+                parkingLotId: NSNumber(value: parkingLotId),
+                spotId: spotId,
+                barrierOpen: false
+            )
         }
     }
 }

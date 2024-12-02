@@ -43,9 +43,6 @@ struct HomeView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
             
-            // TODO: Fix this shit
-            
-            
             // Parking Grid
             ScrollView {
                 if isLoading {
