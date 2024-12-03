@@ -24,9 +24,9 @@ struct HomeView: View {
     private var filteredSpots: [ParkingSpot] {
         switch selectedFilter {
         case 1:
-            return parkingSpots.filter { $0.status == .available }
+            return parkingSpots.filter { viewModel.reservationsDict[$0.spotId] == nil && $0.status == .available }
         case 2:
-            return parkingSpots.filter { $0.status == .reserved }
+            return parkingSpots.filter { viewModel.reservationsDict[$0.spotId] != nil }
         default:
             return parkingSpots
         }
