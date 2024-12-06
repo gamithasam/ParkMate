@@ -271,7 +271,6 @@ struct ParkingLotReserveView: View {
         
         isReserving = true
         
-        // Update Reservations Table
         let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
         let dispatchGroup = DispatchGroup()
         
@@ -279,6 +278,7 @@ struct ParkingLotReserveView: View {
             dispatchGroup.enter()
             
             let reservation = Reservation()
+            reservation!.reservationId = UUID().uuidString
             reservation!.email = UserDefaults.standard.string(forKey: "userEmail")
             reservation!.parkingLotId = NSNumber(value: self.parkingLotId)
             reservation!.spotId = spot.spotId
@@ -288,23 +288,30 @@ struct ParkingLotReserveView: View {
             reservation!.price = NSNumber(value: self.price)
             
             dynamoDBObjectMapper.save(reservation!) { error in
-                if let error = error {
-                    print("Failed to add reservation for spot \(spot.spotId): \(error.localizedDescription)")
-                    self.alertItem = AlertItem(message: "Failed to add reservation")
+                DispatchQueue.main.async {
+                    if let error = error {
+                        print("Failed to add reservation for spot \(spot.spotId): \(error.localizedDescription)")
+                        self.alertItem = AlertItem(message: "Failed to add reservation")
+                    } else {
+                        print("Successfully added reservation for spot \(spot.spotId)")
+                    }
+                    dispatchGroup.leave()
                 }
-                selectedLot = nil
-                isReserving = false
-                dispatchGroup.leave()
             }
         }
         
-        // Close the barrier(s)
-        for spotId in spotIdsToReserve {
-            awsIoTManager.publishMessage(
-                parkingLotId: NSNumber(value: parkingLotId),
-                spotId: spotId,
-                barrierOpen: false
-            )
+        dispatchGroup.notify(queue: .main) {
+            isReserving = false
+            selectedLot = nil
+            
+            // Close the barrier(s)
+            for spotId in spotIdsToReserve {
+                awsIoTManager.publishMessage(
+                    parkingLotId: NSNumber(value: parkingLotId),
+                    spotId: spotId,
+                    barrierOpen: false
+                )
+            }
         }
     }
 }

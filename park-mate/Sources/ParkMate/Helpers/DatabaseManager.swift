@@ -111,11 +111,13 @@ class DatabaseManager {
     }
     
     func fetchReservations(email: String, completion: @escaping ([Reservation]?, Error?) -> Void) {
-        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
-
         let queryExpression = AWSDynamoDBQueryExpression()
-        queryExpression.keyConditionExpression = "email = :email"
+        queryExpression.indexName = "EmailIndex"
+        queryExpression.keyConditionExpression = "#email = :email"
+        queryExpression.expressionAttributeNames = ["#email": "email"]
         queryExpression.expressionAttributeValues = [":email": email]
+        
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
 
         dynamoDBObjectMapper.query(Reservation.self, expression: queryExpression) { (output, error) in
             if let error = error {
@@ -181,7 +183,7 @@ class DatabaseManager {
         let queryExpression = AWSDynamoDBQueryExpression()
         queryExpression.indexName = "ParkingLotIdIndex" // Ensure this matches your GSI name
         queryExpression.keyConditionExpression = "parkingLotId = :parkingLotId"
-        queryExpression.expressionAttributeValues = [":parkingLotId": parkingLotId]
+        queryExpression.expressionAttributeValues = [":parkingLotId": NSNumber(value: parkingLotId)]
         
         dynamoDBObjectMapper.query(Reservation.self, expression: queryExpression) { (output, error) in
             if let error = error {

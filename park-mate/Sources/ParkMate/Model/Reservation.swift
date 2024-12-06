@@ -7,6 +7,7 @@ import Foundation
 import AWSDynamoDB
 
 class Reservation: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
+    @objc var reservationId: String?
     @objc var email: String?
     @objc var parkingLotId: NSNumber?
     @objc var spotId: String?
@@ -20,7 +21,7 @@ class Reservation: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     }
 
     static func hashKeyAttribute() -> String {
-        return "email"
+        return "reservationId"
     }
 }
 #endif

@@ -6,7 +6,7 @@
 import Foundation
 
 struct ReservationDetail: Identifiable {
-    var id: String { reservation.spotId ?? UUID().uuidString }
+    var id: String { reservation.reservationId ?? UUID().uuidString }
     let reservation: Reservation
     let parkingLot: ParkingLot
 }
