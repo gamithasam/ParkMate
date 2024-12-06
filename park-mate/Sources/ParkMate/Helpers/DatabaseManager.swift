@@ -172,7 +172,18 @@ class DatabaseManager {
             }
 
             group.notify(queue: .main) {
-                completion(reservationDetails, nil)
+                // Sort the reservation details by dateNTime in descending order
+                let sortedReservationDetails = reservationDetails.sorted { (detail1, detail2) -> Bool in
+                    guard let dateString1 = detail1.reservation.dateNTime,
+                          let date1 = dateString1.toDate(),
+                          let dateString2 = detail2.reservation.dateNTime,
+                          let date2 = dateString2.toDate() else {
+                        // If date parsing fails, keep the original order
+                        return false
+                    }
+                    return date1 > date2 // For descending order
+                }
+                completion(sortedReservationDetails, nil)
             }
         }
     }
@@ -194,6 +205,15 @@ class DatabaseManager {
                 completion([], nil)
             }
         }
+    }
+}
+
+extension String {
+    func toDate() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMM yyyy 'at' h:mm:ss a"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        return dateFormatter.date(from: self)
     }
 }
 #endif
