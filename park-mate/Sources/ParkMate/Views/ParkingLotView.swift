@@ -16,6 +16,12 @@ struct ParkingLotView: View {
     
     let vehicleTypes = ["Car", "Bicycle", "Motorcycle", "Truck"]
     let vehicleIcons = ["car.fill", "bicycle", "motorcycle.fill", "truck.box.fill"]
+    
+    var price: Double {
+        return (parkinglot.price?[vehicleTypes[selectedVehicle].lowercased()]?.doubleValue != nil
+        ? (parkinglot.price![vehicleTypes[selectedVehicle].lowercased()]!.doubleValue * Double(hours))
+        : 888.88)
+    }
 
     var body: some View {
         NavigationView {
@@ -53,7 +59,7 @@ struct ParkingLotView: View {
                 Section() {
                     HStack {
                         Spacer()
-                        Text(String(format: "Rs. %.2f", parkinglot.price?[vehicleTypes[selectedVehicle].lowercased()]?.doubleValue ?? 888.88))
+                        Text(String(format: "Rs. %.2f", self.price))
                             .font(.body)
                             .bold()
                         Spacer()
@@ -66,7 +72,7 @@ struct ParkingLotView: View {
                         selectedDateNTime: self.selectedDateNTime,
                         hours: self.hours,
                         vehicle: vehicleTypes[selectedVehicle],
-                        price: parkinglot.price?[vehicleTypes[selectedVehicle].lowercased()]?.doubleValue ?? 888.88,
+                        price: self.price,
                         selectedLot: $selectedLot
                     )) {
                         Spacer()
