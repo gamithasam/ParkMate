@@ -27,13 +27,13 @@ struct ParkingLotView: View {
         NavigationView {
             List {
                 Section(header: Text("Date and Time")) {
-                    DatePicker("Start Time", selection: $selectedDateNTime)
+                    DatePicker("Start Time", selection: $selectedDateNTime, in: Date()...)
                         .datePickerStyle(.graphical)
                         .labelsHidden()
                     HStack {
                         Text("Hours:")
                         Spacer()
-                        Stepper(value: $hours, in: 0...10) {
+                        Stepper(value: $hours, in: 1...10) {
                             Text("\(hours)") // Display the actual value
                         }
                     }
